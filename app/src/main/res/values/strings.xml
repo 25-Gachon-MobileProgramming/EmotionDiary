@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Emotion Diary</string>
     <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="title_calendar">Calendar</string>
+    <string name="title_timeLine">Time Line</string>
+    <string name="title_myPage">My Page</string>
 </resources>

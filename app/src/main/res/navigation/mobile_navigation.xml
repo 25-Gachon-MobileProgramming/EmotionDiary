@@ -12,14 +12,19 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/navigation_dashboard"
-        android:name="kr.co.gachon.emotion_diary.ui.dashboard.DashboardFragment"
-        android:label="@string/title_dashboard"
-        tools:layout="@layout/fragment_dashboard" />
+        android:id="@+id/navigation_calendar"
+        android:name="kr.co.gachon.emotion_diary.ui.calendar.CalendarFragment"
+        android:label="@string/title_calendar"
+        tools:layout="@layout/fragment_calendar" />
 
     <fragment
-        android:id="@+id/navigation_notifications"
-        android:name="kr.co.gachon.emotion_diary.ui.notifications.NotificationsFragment"
-        android:label="@string/title_notifications"
-        tools:layout="@layout/fragment_notifications" />
+        android:id="@+id/navigation_timeLine"
+        android:name="kr.co.gachon.emotion_diary.ui.timeLine.TimeLineFragment"
+        android:label="@string/title_timeLine"
+        tools:layout="@layout/fragment_timeline" />
+    <fragment
+        android:id="@+id/navigation_myPage"
+        android:name="kr.co.gachon.emotion_diary.ui.myPage.MyPageFragment"
+        android:label="@string/title_myPage"
+        tools:layout="@layout/fragment_mypage" />
 </navigation>

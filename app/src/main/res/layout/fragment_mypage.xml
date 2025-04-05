@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.myPage.MyPageFragment"
+    android:background="@drawable/background">
+
+    <ImageView
+        android:id="@+id/profileBackGroundView"
+        android:layout_width="340dp"
+        android:layout_height="125dp"
+        android:background="@drawable/profile_background"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+
+        android:layout_marginTop="90dp"
+        android:layout_marginLeft="35dp"
+        />
+
+    <!--프로필 이미지-->
+    <!--프로필 변경시 src 부분 변경-->
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:id="@+id/profileImage"
+        android:src="@drawable/profile_image_dummy"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintStart_toStartOf="@id/profileBackGroundView"
+        app:layout_constraintTop_toTopOf="@id/profileBackGroundView"
+        android:layout_marginTop="30dp"
+        android:layout_marginLeft="20dp"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/nickname"
+        android:text="송재곤"
+        android:textColor="@color/white"
+        android:textSize="16dp"
+        app:layout_constraintStart_toEndOf="@+id/profileImage"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintTop_toTopOf="@+id/profileImage"
+        android:layout_marginTop="15dp"/>
+
+    <ImageButton
+        android:id="@+id/profileChange"
+        android:src="@drawable/profile_change_12dp"
+        android:background="@android:color/transparent"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        app:layout_constraintStart_toEndOf="@+id/nickname"
+        app:layout_constraintTop_toTopOf="@+id/nickname"
+        android:layout_marginTop="3dp"
+        android:layout_marginLeft="150dp"
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/days"
+        android:text="🔥\24일째 일기 작성중🔥"
+        android:textSize="16dp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toEndOf="@+id/profileImage"
+        android:layout_marginLeft="20dp"
+        app:layout_constraintTop_toBottomOf="@+id/nickname"
+        android:layout_marginTop="3dp"/>
+
+
+    <TextView
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/remind"
+        android:text="리마인드"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/profileBackGroundView"
+
+        app:layout_constraintTop_toBottomOf="@+id/profileBackGroundView"
+        android:layout_marginTop="30dp" />
+
+    <View
+        android:layout_width="340dp"
+        android:layout_height="1dp"
+        android:background="#80FFFFFF"
+        app:layout_constraintStart_toStartOf="@+id/profileBackGroundView"
+        app:layout_constraintTop_toBottomOf="@+id/remind"
+        android:layout_marginTop="4dp"/>
+    <TextView
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/remindYear"
+        android:text="연도별"
+        android:textSize="17sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/remindYearTouchView"
+        android:layout_marginLeft="13dp"
+        app:layout_constraintTop_toTopOf="@+id/remindYearTouchView"
+        android:layout_marginTop="8dp"
+        />
+    
+    <ImageView
+        android:id="@+id/remindYearRightArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/right_arrow_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/remindYear"
+        android:layout_marginRight="50dp"
+        />
+    <!--터치 이벤트를 여기에 걸 예정-->
+    <ImageView
+        android:id="@+id/remindYearTouchView"
+        android:layout_width="340dp"
+        android:layout_height="40dp"
+        android:background="@drawable/touch_view"
+
+        app:layout_constraintStart_toStartOf="@+id/remind"
+
+        app:layout_constraintTop_toBottomOf="@+id/remind"
+        android:layout_marginTop="10dp"
+        />
+
+    <TextView
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/remindMonth"
+        android:text="월별"
+        android:textSize="17sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/remindMonthTouchView"
+        android:layout_marginLeft="13dp"
+        app:layout_constraintTop_toTopOf="@+id/remindMonthTouchView"
+        android:layout_marginTop="8dp" />
+
+    <ImageView
+        android:id="@+id/remindMonthRightArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/right_arrow_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/remindMonth"
+        android:layout_marginRight="50dp"
+        />
+    <!--터치 이벤트를 여기에 걸 예정-->
+    <ImageView
+        android:id="@+id/remindMonthTouchView"
+        android:layout_width="340dp"
+        android:layout_height="40dp"
+        android:background="@drawable/touch_view"
+
+        app:layout_constraintStart_toStartOf="@+id/remind"
+
+        app:layout_constraintTop_toBottomOf="@+id/remindYearTouchView"
+
+        />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

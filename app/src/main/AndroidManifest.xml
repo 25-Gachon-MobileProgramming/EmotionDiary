@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.EmotionDiary"
         tools:targetApi="31">
+        <activity android:name=".ui.Remind.RemindActivity" />
         <activity
             android:name=".MainActivity"
             android:exported="true"

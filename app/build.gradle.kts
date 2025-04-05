@@ -35,7 +35,7 @@ android {
 }
 
 dependencies {
-    val room_version = "2.6.1"
+
 
     implementation(libs.room.runtime)
 
@@ -71,7 +71,9 @@ dependencies {
     implementation(libs.lifecycle.viewmodel.ktx)
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
+    implementation(libs.circleimageview) //뷰를 완전히 원으로 보여줌
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
+
 }
