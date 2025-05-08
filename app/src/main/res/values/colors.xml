@@ -10,6 +10,8 @@
     <color name="primary">#2A2E41</color>
     <color name="divider">#565F8C</color>
 
+    <color name="calendar_text">#FFFFFF</color>
+
     <color name="timeline_background">#A9A9A9</color>
     <color name="timeline_text">#FFFFFF</color>
     <color name="timeline_circle_bg">#6E79A0</color>

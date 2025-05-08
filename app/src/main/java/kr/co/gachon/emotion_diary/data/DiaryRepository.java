@@ -61,6 +61,9 @@ public class DiaryRepository {
                 // "신남" is not defined in Emotions, just for error test
                 insert(new Diary("신나는 아침", "새로운 아이디어가 떠올랐어요!", calendar.getTime(), Emotions.getEmotionIdByText("신남")));
 
+                calendar.set(2025, Calendar.MAY, 7, 18, 45);
+                insert(new Diary("평범한 저녁", "졸려요 잘래요", calendar.getTime(), Emotions.getEmotionIdByText("편안")));
+
                 Log.d("RoomExample", "더미 데이터 삽입 완료");
             } else {
                 Log.d("RoomExample", "이미 데이터가 존재하여 더미 데이터를 삽입하지 않음");
