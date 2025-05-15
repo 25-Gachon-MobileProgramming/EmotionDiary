@@ -17,7 +17,7 @@
             android:id="@+id/dateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="2025.1 TUE"
+            android:text="2025.1\nTUE"
             android:textSize="50dp"
             android:textColor="@android:color/white" />
 
