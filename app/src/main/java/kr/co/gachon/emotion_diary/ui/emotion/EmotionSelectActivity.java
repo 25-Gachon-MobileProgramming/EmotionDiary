@@ -3,23 +3,28 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.View;
+import android.view.Gravity;
+import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.GridLayout;
 import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
+
+import java.util.List;
+
 import kr.co.gachon.emotion_diary.R;
+import kr.co.gachon.emotion_diary.data.Emotions;
 import kr.co.gachon.emotion_diary.ui.taro.TaroActivity;
 
 public class EmotionSelectActivity extends AppCompatActivity {
 
-    ImageButton pressButton = null;
-
     String selectedEmotion = null;
 
-    private ImageButton previousButton = null;
+    private Button previousButton = null;
     private Integer originalTint = null;
 
     @Override
@@ -37,23 +42,13 @@ public class EmotionSelectActivity extends AppCompatActivity {
         Log.wtf("getTest", title);
         Log.wtf("getTest", content);
 
-        ImageButton btn1 = findViewById(R.id.btn1);
-        ImageButton btn2 = findViewById(R.id.btn2);
-        ImageButton btn3 = findViewById(R.id.btn3);
-        ImageButton btn4 = findViewById(R.id.btn4);
-
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             actionBar.setCustomView(R.layout.custom_back_bar);
 
             ImageButton backButton = actionBar.getCustomView().findViewById(R.id.backButtonActionBar);
-            backButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    finish();
-                }
-            });
+            backButton.setOnClickListener(v -> finish());
 
             // 액션 바 제목 바꾸기
             TextView titleTextView = actionBar.getCustomView().findViewById(R.id.titleTextViewActionBar);
@@ -61,57 +56,64 @@ public class EmotionSelectActivity extends AppCompatActivity {
                 titleTextView.setText("Emotion");
             }
 
+        GridLayout emotionGrid = findViewById(R.id.emotionGrid);
+
+            // emotions 에 있는 감정 목록을 가져 와서 버튼 생성
+        List<Emotions.EmotionData> emotionList = Emotions.getAllEmotionDataList();
+        for (Emotions.EmotionData emotion : emotionList) {
+            String text = emotion.getText();
+            String emoji = emotion.getEmoji();
+
+            Button emojiButton = new Button(this);
+
+            // 😀\n행복 이런 식으로 정보를 가져 오기
+            emojiButton.setText(emoji + "\n" + text);
+            emojiButton.setTextSize(20);
+            emojiButton.setPadding(16, 16, 16, 16);
+            emojiButton.setAllCaps(false);
+            emojiButton.setBackgroundColor(Color.TRANSPARENT);
+            emojiButton.setTextColor(Color.WHITE);
+            emojiButton.setGravity(Gravity.CENTER);
+
+            GridLayout.LayoutParams params = new GridLayout.LayoutParams();
+            params.width = 0;
+            params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
+            params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+            emojiButton.setLayoutParams(params);
+
+            emojiButton.setOnClickListener(v -> {
+                // 이전 선택된 버튼 초기화, 배경은 투명하게 놨둠
+                if (previousButton != null && previousButton != emojiButton) {
+                    previousButton.setBackgroundColor(Color.TRANSPARENT);
+                    ((Button) previousButton).setTextColor(Color.WHITE);
+
+                }
+
+                // 눌린 버튼 색깔
+                emojiButton.setBackgroundColor(ContextCompat.getColor(EmotionSelectActivity.this, R.color.green));
+
+                selectedEmotion = text;
+                previousButton = emojiButton;
+            });
+
+            emotionGrid.addView(emojiButton);
+        }
+
             originalTint = getColor(R.color.white);
 
-            // 감정 버튼 클릭 시, 이전 버튼 초기화 후 새로운 버튼 상태 변경 logic
-            View.OnClickListener buttonClickListener = new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-
-                    ImageButton currentButton = (ImageButton) view;
-
-                    pressButton = (ImageButton) view;
-                    pressButton.setImageTintList(android.content.res.ColorStateList.valueOf(Color.GREEN));
-
-                    if (view.getId() == R.id.btn1) {
-                        selectedEmotion = "기쁨";
-                    } else if (view.getId() == R.id.btn2) {
-                        selectedEmotion = "분노";
-                    } else if (view.getId() == R.id.btn3) {
-                        selectedEmotion = "슬픔";
-                    } else if (view.getId() == R.id.btn4) {
-                        selectedEmotion = "피곤";
-                    }
-                    // 이전 버튼이 있고 현재 버튼과 다르다면 원래 Tint 색상으로 되돌림
-                    if (previousButton != null && previousButton != currentButton && originalTint != null) {
-                        previousButton.setImageTintList(android.content.res.ColorStateList.valueOf(originalTint));
-                    }
-
-                    previousButton = currentButton;
-                    pressButton = currentButton;
-                }
-            };
-
-            btn1.setOnClickListener(buttonClickListener);
-            btn2.setOnClickListener(buttonClickListener);
-            btn3.setOnClickListener(buttonClickListener);
-            btn4.setOnClickListener(buttonClickListener);
 
             Button nextPage = findViewById(R.id.nextPageButton);
-            nextPage.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (pressButton == null) {
-                        Toast.makeText(EmotionSelectActivity.this, "감정 선택하세요", Toast.LENGTH_SHORT).show();
-                    } else {
-                        Intent intent = new Intent(EmotionSelectActivity.this, TaroActivity.class);
-                        intent.putExtra("date", CurrentDate);
-                        intent.putExtra("title", title);
-                        intent.putExtra("content", content);
-                        intent.putExtra("emotion", selectedEmotion);
+            nextPage.setOnClickListener(view -> {
+                if (previousButton == null) {
+                    Toast.makeText(EmotionSelectActivity.this, "감정 선택 하세요", Toast.LENGTH_SHORT).show();
+                } else {
+                    Intent intent1 = new Intent(EmotionSelectActivity.this, TaroActivity.class);
+                    intent1.putExtra("date", CurrentDate);
+                    intent1.putExtra("title", title);
+                    intent1.putExtra("content", content);
+                    intent1.putExtra("emotion", selectedEmotion);
 
-                        startActivity(intent);
-                    }
+                    startActivity(intent1);
                 }
             });
         }

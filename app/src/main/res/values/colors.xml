@@ -9,7 +9,7 @@
     <color name="white">#FFFFFFFF</color>
     <color name="primary">#2A2E41</color>
     <color name="divider">#565F8C</color>
-    <color name="yellow">#FFEB3B</color>
+    <color name="green">#008000</color>
 
     <color name="calendar_text">#FFFFFF</color>
     <color name="calendar_today_color">#3f51b5</color>
