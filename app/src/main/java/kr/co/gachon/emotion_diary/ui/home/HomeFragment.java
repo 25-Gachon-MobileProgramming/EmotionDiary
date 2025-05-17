@@ -39,6 +39,19 @@ public class HomeFragment extends Fragment {
         DatePagerAdapter adapter = new DatePagerAdapter(dateList);
         binding.dateViewPager.setAdapter(adapter);
         binding.dateViewPager.setCurrentItem(5, false);  // 오늘 날짜 중앙에
+
+        // 캐러셀 효과
+        binding.dateViewPager.setClipToPadding(false);
+        binding.dateViewPager.setClipChildren(false);
+        binding.dateViewPager.setOffscreenPageLimit(3);
+        binding.dateViewPager.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
+        binding.dateViewPager.setPadding(60, 0, 60, 0);
+
+        binding.dateViewPager.setPageTransformer((page, position) -> {
+            float scale = 1 - Math.abs(position) * 0.2f;
+            page.setScaleY(scale);
+            page.setAlpha(0.5f + (1 - Math.abs(position)) * 0.5f);
+        });
     }
 
     @Override
