@@ -18,6 +18,7 @@ import androidx.lifecycle.ViewModelProvider;
 import kr.co.gachon.emotion_diary.data.DiaryDao;
 import kr.co.gachon.emotion_diary.databinding.FragmentMypageBinding;
 import kr.co.gachon.emotion_diary.ui.Remind.WriteRate.RateActivity;
+import kr.co.gachon.emotion_diary.widget.ConsecutiveWidgetProvider;
 
 public class MyPageFragment extends Fragment {
 
@@ -41,7 +42,10 @@ public class MyPageFragment extends Fragment {
         myPageViewModel.getConsecutiveWritingDays().observe(getViewLifecycleOwner(), days -> {
             if (days != null) {
                 String message = "오늘은 아직 일기를 작성하지 않았어요.";
-                if (days > 0) message = "🔥" + days + "일 연속으로 일기 작성중🔥";
+                if (days > 0) {
+                    message = "🔥" + days + "일 연속으로 일기 작성중🔥";
+                    ConsecutiveWidgetProvider.updateAllWidgets(requireContext(), days);
+                }
 
                 binding.days.setText(message);
             }
