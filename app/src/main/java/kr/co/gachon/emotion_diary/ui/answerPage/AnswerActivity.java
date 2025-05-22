@@ -43,13 +43,13 @@ public class AnswerActivity extends AppCompatActivity {
         String title = intent.getStringExtra("title");
         String content = intent.getStringExtra("content");
         String emotion = intent.getStringExtra("emotion");
-        String taroName = intent.getStringExtra("taroCardName");
+        String taroCard = intent.getStringExtra("taroCard");
 
         Log.wtf("get2Test", CurrentDate);
         Log.wtf("get2Test", title);
         Log.wtf("get2Test", content);
         Log.wtf("get2Test", emotion);
-        Log.wtf("get2Test", taroName);
+        Log.wtf("get2Test", taroCard);
 
         // 바 왼쪽에 imageButton 사용해서 뒤로가기
         ActionBar actionBar = getSupportActionBar();
@@ -75,7 +75,7 @@ public class AnswerActivity extends AppCompatActivity {
         }
 
         ImageView taroImage = findViewById(R.id.taro);
-        String CardImage = getIntent().getStringExtra("taroCardName");
+        String CardImage = getIntent().getStringExtra("taroCard");
 
         int imageResId = getResources().getIdentifier(CardImage, "drawable", getPackageName());
 
@@ -108,7 +108,7 @@ public class AnswerActivity extends AppCompatActivity {
 
         findViewById(R.id.room_button).setOnClickListener(v -> {
             if (finalParsedDate != null) {
-                Diary diary = new Diary(title, content, finalParsedDate, Emotions.getEmotionIdByText(emotion), taroName);
+                Diary diary = new Diary(title, content, finalParsedDate, Emotions.getEmotionIdByText(emotion));
                 diaryRepository.insert(diary);
                 Toast.makeText(this, "저장되었습니다", Toast.LENGTH_SHORT).show();
 

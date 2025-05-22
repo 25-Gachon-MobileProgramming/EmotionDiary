@@ -3,49 +3,34 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@drawable/background"
-    android:orientation="vertical"
-    android:padding="16dp"
-    android:gravity="center_horizontal">
-    <RelativeLayout
-        android:id="@+id/tarotCardContainer"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:padding="8dp">
-        <ImageView
-            android:id="@+id/taro"
-            android:layout_width="200dp"
-            android:layout_height="300dp"
-            android:layout_centerInParent="true"
-            android:layout_marginTop="40dp"
-            android:scaleType="fitCenter"
-            android:adjustViewBounds="true"
-            android:contentDescription="타로 카드"
-            android:src="@drawable/card_back" /> </RelativeLayout>
+    android:layout_gravity="center_horizontal"
+    android:orientation="vertical">
 
     <TextView
         android:id="@+id/answer"
         android:layout_width="match_parent"
-        android:layout_height="200dp"
-        android:layout_marginTop="20dp"
-        android:background="#FFFFF0"
-        android:padding="16dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="100dp"
+        android:background="#ffd"
+        android:minHeight="150dp"
         android:text="@string/answer"
-        android:textSize="18sp" android:gravity="center"
-        android:scrollbars="vertical" />
+        android:textSize="25dp" />
+
+    <ImageView
+        android:id="@+id/taro"
+        android:layout_width="wrap_content"
+        android:layout_height="200dp"
+        android:background="#ffd"
+        android:contentDescription="타로 카드" />
+
+
     <Button
         android:id="@+id/room_button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
         android:layout_gravity="end"
-        android:text="Save Data &gt; Room"
-        android:paddingStart="20dp"
-        android:paddingEnd="20dp"
-        android:paddingTop="10dp"
-        android:paddingBottom="10dp"
-        android:fontFamily="@font/font"
-        android:textColor="#FFFFFF"
+        android:text="save data,send room"
         />
 
 </LinearLayout>

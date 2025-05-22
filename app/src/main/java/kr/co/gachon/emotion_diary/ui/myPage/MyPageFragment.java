@@ -1,29 +1,19 @@
 package kr.co.gachon.emotion_diary.ui.myPage;
 
-import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
 
-import androidx.activity.result.ActivityResultLauncher;
-import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.InputStream;
 
 import kr.co.gachon.emotion_diary.data.DiaryDao;
 import kr.co.gachon.emotion_diary.databinding.FragmentMypageBinding;
@@ -36,19 +26,6 @@ public class MyPageFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private DiaryDao diaryDao;
 
-    // 이미지 선택 런처
-    private final ActivityResultLauncher<Intent> imagePickerLauncher = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            result -> {
-                if (result.getResultCode() == Activity.RESULT_OK && result.getData() != null) {
-                    Uri selectedImageUri = result.getData().getData();
-                    if (selectedImageUri != null) {
-                        copyUriToInternalStorage(selectedImageUri);
-                    }
-                }
-            }
-    );
-
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         MyPageViewModel myPageViewModel =
@@ -58,23 +35,6 @@ public class MyPageFragment extends Fragment {
         View root = binding.getRoot();
 
         sharedPreferences = requireContext().getSharedPreferences("avatar_pref", Context.MODE_PRIVATE);
-
-
-        // 프로필 이미지 불러오기
-        String savedPath = sharedPreferences.getString("profileImage", null);
-        if (savedPath != null) {
-            File file = new File(savedPath);
-            if (file.exists()) {
-                binding.profileImage.setImageURI(Uri.fromFile(file));
-            }
-        }
-
-        // 이미지 클릭 시 갤러리 열기
-        binding.profileImageChangeTouchView.setOnClickListener(v -> {
-            Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-            imagePickerLauncher.launch(intent);
-        });
-
         String savedNickname = sharedPreferences.getString("nickname", "사용자");
         binding.nickname.setText(savedNickname);
 
@@ -87,12 +47,25 @@ public class MyPageFragment extends Fragment {
             }
         });
 
+        View yearRemindButton = binding.remindYearTouchView;
 
+        yearRemindButton.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), RateActivity.class);
+            intent.putExtra("isMonthly", false);
+            startActivity(intent);
+        });
 
-        View setting = binding.nicknameChangeTouchView;
+        View monthRemindButton = binding.remindMonthTouchView;
 
+        monthRemindButton.setOnClickListener(view -> {
+            Intent intent = new Intent(getActivity(), RateActivity.class);
+            intent.putExtra("isMonthly", true);
+            startActivity(intent);
+        });
 
-        setting.setOnClickListener(view -> {
+        ImageButton nicknameChangeButton = binding.profileChange;
+
+        nicknameChangeButton.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             builder.setTitle("닉네임 변경");
 
@@ -123,28 +96,4 @@ public class MyPageFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
-    private void copyUriToInternalStorage(Uri sourceUri) {
-        try {
-            InputStream inputStream = requireContext().getContentResolver().openInputStream(sourceUri);
-            File file = new File(requireContext().getFilesDir(), "profile.jpg");
-            FileOutputStream outputStream = new FileOutputStream(file);
-
-            byte[] buffer = new byte[4096];
-            int bytesRead;
-            while ((bytesRead = inputStream.read(buffer)) != -1) {
-                outputStream.write(buffer, 0, bytesRead);
-            }
-
-            inputStream.close();
-            outputStream.close();
-
-            binding.profileImage.setImageURI(Uri.fromFile(file));
-            // 로컬 URI 저장
-            sharedPreferences.edit().putString("profileImage", file.getAbsolutePath()).apply();
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-    }
-
 }
