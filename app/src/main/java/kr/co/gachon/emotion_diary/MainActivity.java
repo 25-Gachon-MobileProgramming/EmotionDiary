@@ -2,6 +2,7 @@ package kr.co.gachon.emotion_diary;
 
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.widget.ImageButton;
@@ -20,7 +21,9 @@ import java.util.Calendar;
 import kr.co.gachon.emotion_diary.data.Diary;
 import kr.co.gachon.emotion_diary.data.DiaryRepository;
 import kr.co.gachon.emotion_diary.databinding.ActivityMainBinding;
+import kr.co.gachon.emotion_diary.notification.AlarmScheduler;
 import kr.co.gachon.emotion_diary.ui.writePage.DiaryWriteActivity;
+import kr.co.gachon.emotion_diary.utils.SharedPreferencesUtils;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -42,6 +45,23 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        // Notification
+        SharedPreferences prefs = getSharedPreferences("diary_prefs", MODE_PRIVATE);
+        boolean alarmSet = prefs.getBoolean("alarm_set", false);
+
+        if (!alarmSet) {
+            // 최초 실행 시 기본값 23:00 저장 및 알림 예약
+            SharedPreferencesUtils.saveTime(this, 23, 0);
+            AlarmScheduler.scheduleDiaryReminder(this, 23, 0);
+
+            prefs.edit().putBoolean("alarm_set", true).apply();
+        } else {
+            // 기존 저장된 시간으로 알림 예약
+            int hour = SharedPreferencesUtils.getHour(this);
+            int minute = SharedPreferencesUtils.getMinute(this);
+            AlarmScheduler.scheduleDiaryReminder(this, hour, minute);
+        }
 
         // BottomNavigationView navView = findViewById(R.id.nav_view);
         // Passing each menu ID as a set of Ids because each

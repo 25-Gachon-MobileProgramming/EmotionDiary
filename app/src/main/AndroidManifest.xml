@@ -38,13 +38,18 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <receiver android:name=".notification.DiaryAlarmReceiver" />
     </application>
     <!--    핸드폰 wifi 상태 접근-->
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 
     <!--        인터넷 접근 권한-->
     <uses-permission android:name="android.permission.INTERNET" />
+    <!--notification-->
+    <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+
     <!--갤러리 접근용-->
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+
 
 </manifest>
