@@ -44,18 +44,6 @@
         app:layout_constraintTop_toTopOf="@+id/profileImage"
         android:layout_marginTop="15dp"/>
 
-    <ImageButton
-        android:id="@+id/profileChange"
-        android:src="@drawable/profile_change_12dp"
-        android:background="@android:color/transparent"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        app:layout_constraintStart_toEndOf="@+id/nickname"
-        app:layout_constraintTop_toTopOf="@+id/nickname"
-        android:layout_marginTop="3dp"
-        android:layout_marginLeft="150dp"
-        />
-
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -72,8 +60,8 @@
     <TextView
         android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:id="@+id/remind"
-        android:text="리마인드"
+        android:id="@+id/setting"
+        android:text="설정"
         android:textSize="20sp"
         android:textStyle="bold"
         android:textColor="@color/white"
@@ -87,76 +75,75 @@
         android:layout_height="1dp"
         android:background="#80FFFFFF"
         app:layout_constraintStart_toStartOf="@+id/profileBackGroundView"
-        app:layout_constraintTop_toBottomOf="@+id/remind"
+        app:layout_constraintTop_toBottomOf="@+id/setting"
         android:layout_marginTop="4dp"/>
-    <TextView
-        android:layout_width="340dp"
-        android:layout_height="wrap_content"
-        android:id="@+id/remindYear"
-        android:text="연도별"
-        android:textSize="17sp"
-        android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/remindYearTouchView"
-        android:layout_marginLeft="13dp"
-        app:layout_constraintTop_toTopOf="@+id/remindYearTouchView"
-        android:layout_marginTop="8dp"
-        />
-    
-    <ImageView
-        android:id="@+id/remindYearRightArrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@drawable/right_arrow_24dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/remindYear"
-        android:layout_marginRight="50dp"
-        />
 
-    <ImageView
-        android:id="@+id/remindYearTouchView"
-        android:layout_width="340dp"
-        android:layout_height="40dp"
-        android:background="@drawable/touch_view"
-
-        app:layout_constraintStart_toStartOf="@+id/remind"
-
-        app:layout_constraintTop_toBottomOf="@+id/remind"
-        android:layout_marginTop="10dp"
-        />
 
     <TextView
         android:layout_width="340dp"
         android:layout_height="wrap_content"
-        android:id="@+id/remindMonth"
-        android:text="월별"
+        android:id="@+id/nicknameChange"
+        android:text="닉네임 변경"
         android:textSize="17sp"
         android:textColor="@color/white"
-        app:layout_constraintStart_toStartOf="@+id/remindMonthTouchView"
+        app:layout_constraintStart_toStartOf="@+id/setting"
         android:layout_marginLeft="13dp"
-        app:layout_constraintTop_toTopOf="@+id/remindMonthTouchView"
-        android:layout_marginTop="8dp" />
+        app:layout_constraintTop_toTopOf="@+id/nicknameChangeTouchView"
+        android:layout_marginTop="12dp" />
 
     <ImageView
-        android:id="@+id/remindMonthRightArrow"
+        android:id="@+id/nicknameChangeRightArrow"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/right_arrow_24dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/remindMonth"
+        app:layout_constraintTop_toTopOf="@id/nicknameChange"
         android:layout_marginRight="50dp"
         />
-    <!--터치 이벤트를 여기에 걸 예정-->
+
     <ImageView
-        android:id="@+id/remindMonthTouchView"
+        android:id="@+id/nicknameChangeTouchView"
         android:layout_width="340dp"
         android:layout_height="40dp"
         android:background="@drawable/touch_view"
-
-        app:layout_constraintStart_toStartOf="@+id/remind"
-
-        app:layout_constraintTop_toBottomOf="@+id/remindYearTouchView"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@+id/nicknameChange"
+        app:layout_constraintTop_toBottomOf="@+id/setting"
 
         />
 
+    <!--profileChage-->
+    <TextView
+        android:layout_width="340dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/profileImageChange"
+        android:text="프로필 변경"
+        android:textSize="17sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="@+id/setting"
+        android:layout_marginLeft="13dp"
+        app:layout_constraintTop_toTopOf="@+id/profileImageChangeTouchView"
+        android:layout_marginTop="6dp" />
+
+    <ImageView
+        android:id="@+id/profileImageChangeRightArrow"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/right_arrow_24dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/profileImageChange"
+        android:layout_marginRight="50dp"
+        />
+
+    <ImageView
+        android:id="@+id/profileImageChangeTouchView"
+        android:layout_width="340dp"
+        android:layout_height="40dp"
+        android:background="@drawable/touch_view"
+        android:layout_marginTop="5dp"
+        app:layout_constraintStart_toStartOf="@+id/profileImageChange"
+        app:layout_constraintTop_toBottomOf="@+id/nicknameChangeTouchView"
+
+        />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

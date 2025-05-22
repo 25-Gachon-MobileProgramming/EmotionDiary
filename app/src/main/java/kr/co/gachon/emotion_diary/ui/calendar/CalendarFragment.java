@@ -31,6 +31,7 @@ import kr.co.gachon.emotion_diary.R;
 import kr.co.gachon.emotion_diary.data.Diary;
 import kr.co.gachon.emotion_diary.data.Emotions;
 import kr.co.gachon.emotion_diary.databinding.FragmentCalendarBinding;
+import kr.co.gachon.emotion_diary.helper.Helper;
 import kr.co.gachon.emotion_diary.ui.Remind.WriteRate.RateActivity;
 
 public class CalendarFragment extends Fragment {
@@ -39,7 +40,6 @@ public class CalendarFragment extends Fragment {
     private TextView monthYearText;
     private ImageView prevMonthButton;
     private ImageView nextMonthButton;
-    private TextView showMonthlyStat;
 
     private List<Diary> monthlyDiaries;
 
@@ -48,7 +48,11 @@ public class CalendarFragment extends Fragment {
     private int calendarYear;
     private int calendarMonth;
 
+    private Helper helper;
+
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        helper = new Helper(getContext());
+
         calendarViewModel = new ViewModelProvider(this).get(CalendarViewModel.class);
 
         binding = FragmentCalendarBinding.inflate(inflater, container, false);
@@ -58,15 +62,14 @@ public class CalendarFragment extends Fragment {
         monthYearText = binding.monthYearText;
         prevMonthButton = binding.prevMonthButton;
         nextMonthButton = binding.nextMonthButton;
-        showMonthlyStat = binding.showMonthlyStat;
+
+        TextView showMonthlyStat = binding.showMonthlyStat;
+        TextView showYearlyStat = binding.showYearlyStat;
+
+        showMonthlyStat.setOnClickListener(v -> moveToStatActivity(true, calendarYear, calendarMonth));
+        showYearlyStat.setOnClickListener(v -> moveToStatActivity(false, calendarYear, calendarMonth));
 
         monthYearText.setOnClickListener(v -> calendarViewModel.goToCurrentMonth());
-        showMonthlyStat.setOnClickListener(v -> {
-            // TODO: isMonthly 대신 어떤 달의 통계를 보여줄지 바꿔야 함
-            Intent intent = new Intent(getActivity(), RateActivity.class);
-            intent.putExtra("isMonthly", true);
-            startActivity(intent);
-        });
 
         // Set cell size dynamically
         calendarTable.getViewTreeObserver().addOnGlobalLayoutListener(new ViewTreeObserver.OnGlobalLayoutListener() {
@@ -83,6 +86,16 @@ public class CalendarFragment extends Fragment {
         setEventListeners();
 
         return root;
+    }
+
+    private void moveToStatActivity(boolean isMonthly, int year, int month) {
+        String term = year + "-" + month;
+
+        Intent intent = new Intent(getActivity(), RateActivity.class);
+        intent.putExtra("isMonthly", isMonthly);
+        intent.putExtra("term", term);
+
+        startActivity(intent);
     }
 
     // Execute when data changed
@@ -154,7 +167,7 @@ public class CalendarFragment extends Fragment {
             calendarTable.addView(dayNamesRow);
 
             TableRow.LayoutParams dayOfTheWeekParams = new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-            dayOfTheWeekParams.setMargins(0, 0, 0, dpToPx(8));
+            dayOfTheWeekParams.setMargins(0, 0, 0, helper.dpToPx(8));
 
             for (int j = 0; j < dayNamesRow.getChildCount(); j++) {
                 View cell = dayNamesRow.getChildAt(j);
@@ -246,7 +259,7 @@ public class CalendarFragment extends Fragment {
         int cellSize = (calendarTable.getWidth() - (calendarTable.getPaddingStart() + calendarTable.getPaddingEnd())) / 7;
 
         TableRow.LayoutParams dayOfTheWeekParams = new TableRow.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f);
-        dayOfTheWeekParams.setMargins(0, 0, 0, dpToPx(8));
+        dayOfTheWeekParams.setMargins(0, 0, 0, helper.dpToPx(8));
 
         if (calendarTable.getChildCount() > 0) {
             TableRow dayOfTheWeekRow = (TableRow) calendarTable.getChildAt(0);
@@ -297,12 +310,6 @@ public class CalendarFragment extends Fragment {
             if (targetCal.equals(diaryCal)) return diary;
         }
         return null;
-    }
-
-    private int dpToPx(int dp) {
-        float density = getResources().getDisplayMetrics().density;
-
-        return Math.round(dp * density);
     }
 
     @Override
