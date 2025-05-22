@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -38,7 +39,7 @@ import kr.co.gachon.emotion_diary.data.EmotionCount;
 
 public class EmotionStatisticsFragment extends Fragment {
 
-    private BarChart barChart;
+    private HorizontalBarChart barChart;
     private static final String SET_LABEL = "감정별 통계";
     private List<EmotionCount> emotions = new ArrayList<>();
 
@@ -111,12 +112,12 @@ public class EmotionStatisticsFragment extends Fragment {
         barChart.setBackgroundColor(Color.TRANSPARENT);
 
         XAxis xAxis = barChart.getXAxis();
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawAxisLine(false);
         xAxis.setGranularity(1f);
         xAxis.setTextSize(15f);
         xAxis.setTextColor(Color.WHITE);
         xAxis.setDrawGridLines(false);
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -126,32 +127,27 @@ public class EmotionStatisticsFragment extends Fragment {
         });
 
         YAxis axisLeft = barChart.getAxisLeft();
+        axisLeft.setDrawLabels(true);
         axisLeft.setDrawGridLines(false);
         axisLeft.setDrawAxisLine(false);
         axisLeft.setAxisMinimum(0f);
-        axisLeft.setAxisMaximum(50f);
         axisLeft.setGranularity(1f);
-        axisLeft.setDrawLabels(false);
 
         YAxis axisRight = barChart.getAxisRight();
-        axisRight.setTextSize(15f);
-        axisRight.setDrawLabels(false);
-        axisRight.setDrawGridLines(false);
-        axisRight.setDrawAxisLine(false);
+        axisRight.setEnabled(false);
     }
 
     private BarData createChartData() {
-
         ArrayList<BarEntry> values = new ArrayList<>();
         for (int i = 0; i < emotions.size(); i++) {
             values.add(new BarEntry(i, emotions.get(i).count));
         }
 
         BarDataSet set = new BarDataSet(values, SET_LABEL);
-        set.setDrawIcons(false);
+        set.setColor(Color.RED);
         set.setDrawValues(true);
-        set.setColor(Color.parseColor("#FF0000"));
         set.setValueTextColor(Color.WHITE);
+        set.setValueTextSize(15f);
         set.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -160,10 +156,10 @@ public class EmotionStatisticsFragment extends Fragment {
         });
 
         BarData data = new BarData(set);
-        data.setBarWidth(0.5f);
-        data.setValueTextSize(15);
+        data.setBarWidth(0.1f); // 바 두께 조정
         return data;
     }
+
 
     private void prepareChartData(BarData data) {
         barChart.setData(data);

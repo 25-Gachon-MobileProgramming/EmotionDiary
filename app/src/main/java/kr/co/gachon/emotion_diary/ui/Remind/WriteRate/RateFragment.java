@@ -86,7 +86,7 @@ public class RateFragment extends Fragment {
                 if (isMonthly) {
                     SimpleDateFormat monthFormat = new SimpleDateFormat("M", Locale.getDefault());
                     String monthText = monthFormat.format(startDate); // 예: "5"
-                    result = monthText + "월에 " + (int) days + "일 중 총 " + count + "일 작성했어요";
+                    result = monthText + "월에는 총 " + count + "일 작성했어요";
                 } else {
                     result = "365일 중 총 " + count + "일 작성했어요";
                 }
