@@ -1,30 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:id="@+id/emotionData"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/emotionSelectLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
     android:background="@drawable/background"
-    >
-    <GridLayout
-        android:id="@+id/emotionGrid"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:columnCount="4"
-        android:layout_marginTop="150dp"
-        android:alignmentMode="alignMargins"
-        android:rowOrderPreserved="false"
-        android:padding="16dp"
-        android:useDefaultMargins="true" />
+    android:orientation="vertical"
+    android:paddingTop="?attr/actionBarSize">
 
-    <Button
-        android:id="@+id/nextPageButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="end"
-        android:layout_marginTop="50dp"
-        android:layout_marginRight="20dp"
-        android:fontFamily="@font/font"
-        android:text="Taro Card" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:padding="16dp">
+
+        <com.google.android.material.card.MaterialCardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:checkable="false"
+            android:clickable="false"
+            android:elevation="8dp"
+            app:cardBackgroundColor="@color/cardview_dark_background">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <GridLayout
+                    android:id="@+id/emotionGrid"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:alignmentMode="alignMargins"
+                    android:columnCount="4"
+                    android:padding="16dp"
+                    android:rowOrderPreserved="false"
+                    android:useDefaultMargins="true" />
+
+                <TextView
+                    android:id="@+id/nextPageTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/font"
+                    android:text="선택 완료"
+                    android:textColor="@android:color/white"
+                    android:textSize="24sp" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+    </LinearLayout>
 
 </LinearLayout>
