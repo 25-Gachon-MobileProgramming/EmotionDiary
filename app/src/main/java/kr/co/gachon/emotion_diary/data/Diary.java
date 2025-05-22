@@ -1,5 +1,6 @@
 package kr.co.gachon.emotion_diary.data;
 
+import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -24,16 +25,11 @@ public class Diary {
     @ColumnInfo(name = "emotion_id")
     private int emotionId;
 
-    @ColumnInfo(name = "taroName")
-    private String taroName;
-
-
-    public Diary(String title, String content, Date date, int emotionId, String taroName) {
+    public Diary(String title, String content, Date date, int emotionId) {
         this.title = title;
         this.content = content;
         this.date = date;
         this.emotionId = emotionId;
-        this.taroName = taroName;
     }
 
     public int getId() {
@@ -72,14 +68,6 @@ public class Diary {
         return emotionId;
     }
 
-    public void setTaroName(String taroName){
-        this.taroName = taroName;
-    }
-
-    public String getTaroName(){
-        return taroName;
-    }
-
     public void setEmotionId(int emotionId) {
         if (emotionId < 0 || emotionId >= Emotions.getAllEmotionDataList().size())
             throw new IllegalArgumentException("유효하지 않은 감정 ID입니다: " + emotionId);
@@ -100,6 +88,4 @@ public class Diary {
 
         return (data != null) ? data.getText() : "알 수 없는 감정";
     }
-
-
 }

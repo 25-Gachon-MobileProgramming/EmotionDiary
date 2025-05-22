@@ -8,7 +8,6 @@ import androidx.lifecycle.Transformations;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
@@ -31,10 +30,6 @@ public class DiaryRepository {
 
     public LiveData<List<Diary>> getAllDiaries() {
         return allDiaries;
-    }
-
-    public LiveData<Diary> getDiaryForDateRange(Date startDate, Date endDate) {
-        return diaryDao.getDiaryForSingleDay(startDate, endDate);
     }
 
     public LiveData<Integer> getConsecutiveWritingDays() {
@@ -91,31 +86,31 @@ public class DiaryRepository {
 
                 // dummy data from gpt
                 calendar.set(2025, Calendar.FEBRUARY, 4, 10, 30);
-                insert(new Diary("과제를함", "하루종일과제를함", calendar.getTime(), Emotions.getEmotionIdByText("뿌듯"),"moon"));
+                insert(new Diary("과제를함", "하루종일과제를함", calendar.getTime(), Emotions.getEmotionIdByText("뿌듯")));
 
                 calendar.set(2025, Calendar.APRIL, 2, 10, 39);
-                insert(new Diary("즐거운 하루", "오늘 날씨가 정말 좋았어요!", calendar.getTime(), Emotions.getEmotionIdByText("행복"),"moon"));
+                insert(new Diary("즐거운 하루", "오늘 날씨가 정말 좋았어요!", calendar.getTime(), Emotions.getEmotionIdByText("행복")));
                 calendar.set(2025, Calendar.MARCH, 3, 15, 0);
-                insert(new Diary("힘든 날", "회사에서 어려운 일이 있었어요.", calendar.getTime(), Emotions.getEmotionIdByText("슬픔"),"moon"));
+                insert(new Diary("힘든 날", "회사에서 어려운 일이 있었어요.", calendar.getTime(), Emotions.getEmotionIdByText("슬픔")));
 
                 calendar.set(2025, Calendar.APRIL, 4, 18, 45);
-                insert(new Diary("평범한 저녁", "맛있는 저녁을 먹고 휴식했어요.", calendar.getTime(), Emotions.getEmotionIdByText("편안"),"moon"));
+                insert(new Diary("평범한 저녁", "맛있는 저녁을 먹고 휴식했어요.", calendar.getTime(), Emotions.getEmotionIdByText("편안")));
 
                 calendar.set(2025, Calendar.APRIL, 5, 9, 0);
                 // "신남" is not defined in Emotions, just for error test
-                insert(new Diary("신나는 아침", "새로운 아이디어가 떠올랐어요!", calendar.getTime(), Emotions.getEmotionIdByText("신남"),"moon"));
+                insert(new Diary("신나는 아침", "새로운 아이디어가 떠올랐어요!", calendar.getTime(), Emotions.getEmotionIdByText("신남")));
                 calendar.set(2025, Calendar.APRIL, 4, 9, 29);
                 // "신남" is not defined in Emotions, just for error test
-                insert(new Diary("신나는 밤", "새로운 아이디어가 떠올랐어요!", calendar.getTime(), Emotions.getEmotionIdByText("신남"),"moon"));
+                insert(new Diary("신나는 밤", "새로운 아이디어가 떠올랐어요!", calendar.getTime(), Emotions.getEmotionIdByText("신남")));
 
                 calendar.set(2025, Calendar.MAY, 7, 18, 45);
-                insert(new Diary("평범한 저녁", "졸려요 잘래요", calendar.getTime(), Emotions.getEmotionIdByText("편안"),"moon"));
+                insert(new Diary("평범한 저녁", "졸려요 잘래요", calendar.getTime(), Emotions.getEmotionIdByText("편안")));
 
                 calendar = Calendar.getInstance();
 
                 for (int i = 0; i < 5; i++) {
                     calendar.add(Calendar.DAY_OF_YEAR, -1);
-                    insert(new Diary("test1", "test1", calendar.getTime(), (int) (Math.random() * 16) + 1,"test1"));
+                    insert(new Diary("test1", "test1", calendar.getTime(), (int) (Math.random() * 16) + 1));
                 }
 
 
