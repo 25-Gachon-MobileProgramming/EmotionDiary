@@ -25,12 +25,12 @@ public class HomeFragment extends Fragment {
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
-        setupDatePager();
+        setupDateViewPager();
 
         return root;
     }
 
-    private void setupDatePager() {
+    private void setupDateViewPager() {
         List<LocalDate> dateList = new ArrayList<>();
         LocalDate today = LocalDate.now();
         for (int i = -5; i <= 1; i++) {
