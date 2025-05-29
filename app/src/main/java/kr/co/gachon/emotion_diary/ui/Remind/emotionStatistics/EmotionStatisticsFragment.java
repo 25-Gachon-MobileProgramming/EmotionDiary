@@ -43,9 +43,9 @@ public class EmotionStatisticsFragment extends Fragment {
     private HorizontalBarChart barChart;
     private static final String SET_LABEL = "감정별 통계";
     private List<EmotionCount> emotions = new ArrayList<>();
-    private List<Integer> displayIds = new ArrayList<>();
 
     boolean isMonthly;
+
 
     Date startDate;
     Date endDate;
@@ -63,6 +63,7 @@ public class EmotionStatisticsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         barChart = view.findViewById(R.id.chart);
+        initializeEmotions();
         AppDatabase db = AppDatabase.getDatabase(requireContext());
         DiaryDao diaryDao = db.diaryDao();
 
@@ -81,7 +82,14 @@ public class EmotionStatisticsFragment extends Fragment {
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.execute(() -> {
-                    emotions = diaryDao.getEmotionCounts(startDate, endDate);
+                List<EmotionCount> result = diaryDao.getEmotionCounts(startDate, endDate);
+
+                for (EmotionCount ec : result) {
+                    int id = ec.emotion_id;
+                    if (id >= 0 && id < emotions.size()) {
+                        emotions.get(id).count = ec.count;
+                    }
+                }
 
 
                 requireActivity().runOnUiThread(() -> {
@@ -100,7 +108,11 @@ public class EmotionStatisticsFragment extends Fragment {
             e.printStackTrace();
         }
     }
-
+    private void initializeEmotions() {
+        for (int i = 0; i < 16; i++) {
+            emotions.add(new EmotionCount(i, 0));
+        }
+    }
 
     private void configureChartAppearance() {
         barChart.getDescription().setEnabled(false);
@@ -113,8 +125,8 @@ public class EmotionStatisticsFragment extends Fragment {
         xAxis.setDrawAxisLine(false);
         xAxis.setGranularity(1f);
         xAxis.setGranularityEnabled(true);
-        xAxis.setTextSize(15f);
-
+        xAxis.setTextSize(20f);
+        xAxis.setLabelCount(emotions.size(), true);
 
         xAxis.setDrawGridLines(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
@@ -123,7 +135,7 @@ public class EmotionStatisticsFragment extends Fragment {
             public String getFormattedValue(float value) {
                 int index = (int) value;
                 Log.d("ChartEntry", "id=" + index);
-                return Emotions.getEmotionDataById(displayIds.get(index)).getEmoji();
+                return Emotions.getEmotionDataById(emotions.get(index).emotion_id).getEmoji();
             }
         });
 
@@ -140,18 +152,14 @@ public class EmotionStatisticsFragment extends Fragment {
 
     private BarData createChartData() {
         ArrayList<BarEntry> values = new ArrayList<>();
-        displayIds.clear();
 
-        for (int i = 0; i < Emotions.getAllEmotionIds().size(); i++) {
-            int id = Emotions.getAllEmotionIds().get(i);
-            EmotionCount ec = findEmotionById(emotions, id); // 아래 함수 참고
-            int count = ec != null ? ec.count : 0;
+        for (int i = 0; i < emotions.size(); i++) {
 
-            Log.d("ChartXValue", "BarEntry x=" + i);
+            int id = emotions.get(i).emotion_id;
+            int count = emotions.get(i).count;
 
             values.add(new BarEntry(i, count));
-            displayIds.add(id);
-//            Log.d("ChartEntry", "id=" + id + ", count=" + count + ", emoji=" + Emotions.getEmotionDataById(id).getEmoji() + values.size());
+            Log.d("ChartEntry1", "id=" + id + ", count=" + count + ", emoji=" + Emotions.getEmotionDataById(id).getEmoji() + values);
         }
 
         BarDataSet set = new BarDataSet(values, SET_LABEL);
@@ -167,20 +175,16 @@ public class EmotionStatisticsFragment extends Fragment {
         });
 
         BarData data = new BarData(set);
-        data.setBarWidth(0.2f);
+        data.setBarWidth(0.1f);
         data.setValueTextSize(15);
         return data;
     }
 
     private void prepareChartData(BarData data) {
         barChart.setData(data);
+        barChart.setFitBars(true);
         barChart.invalidate();
     }
-    private EmotionCount findEmotionById(List<EmotionCount> list, int id) {
-        for (EmotionCount ec : list) {
-            if (ec.emotion_id == id) return ec;
-        }
-        return null;
-    }
+
 
 }
