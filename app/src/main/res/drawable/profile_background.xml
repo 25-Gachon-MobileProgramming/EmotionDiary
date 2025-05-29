@@ -4,11 +4,12 @@
         android:shape="rectangle">
 
         <!-- 배경 투명 -->
-        <solid android:color="@color/primary" />
+        <solid android:color="@color/colorPrimary" />
 
         <!-- 모서리 둥글게 -->
         <corners android:radius="10dp" />
 
-    <stroke android:width="0.5dp"
-        android:color="@color/white"></stroke>
+    <stroke
+        android:width="0.5dp"
+        android:color="@color/colorOnBackground" />
     </shape>

@@ -25,4 +25,3 @@ public class SharedPreferencesUtils {
                 .getInt(KEY_MINUTE, 0);
     }
 }
-

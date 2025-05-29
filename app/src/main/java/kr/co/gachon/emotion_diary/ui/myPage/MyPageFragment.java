@@ -8,15 +8,19 @@ import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.Toast;
 
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.core.content.ContextCompat;
 import androidx.core.content.FileProvider;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
@@ -24,10 +28,13 @@ import androidx.lifecycle.ViewModelProvider;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
+import java.util.Objects;
 
+import kr.co.gachon.emotion_diary.R;
 import kr.co.gachon.emotion_diary.data.DiaryDao;
 import kr.co.gachon.emotion_diary.databinding.FragmentMypageBinding;
-import kr.co.gachon.emotion_diary.ui.Remind.WriteRate.RateActivity;
+import kr.co.gachon.emotion_diary.notification.AlarmScheduler;
+import kr.co.gachon.emotion_diary.utils.SharedPreferencesUtils;
 
 public class MyPageFragment extends Fragment {
 
@@ -70,7 +77,7 @@ public class MyPageFragment extends Fragment {
         }
 
         // 이미지 클릭 시 갤러리 열기
-        binding.profileImageChangeTouchView.setOnClickListener(v -> {
+        binding.profileImageChangeLayout.setOnClickListener(v -> {
             Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
             imagePickerLauncher.launch(intent);
         });
@@ -89,10 +96,7 @@ public class MyPageFragment extends Fragment {
 
 
 
-        View setting = binding.nicknameChangeTouchView;
-
-
-        setting.setOnClickListener(view -> {
+        binding.nicknameChangeLayout.setOnClickListener(view -> {
             AlertDialog.Builder builder = new AlertDialog.Builder(requireContext());
             builder.setTitle("닉네임 변경");
 
@@ -112,7 +116,41 @@ public class MyPageFragment extends Fragment {
 
             builder.setNegativeButton("취소", (dialog, which) -> dialog.cancel());
 
-            builder.show();
+            AlertDialog dialog = builder.show();
+
+
+            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_POSITIVE)
+                    .setTextColor(ContextCompat.getColor(requireActivity(), R.color.colorSecondary));
+            dialog.getButton(androidx.appcompat.app.AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(ContextCompat.getColor(requireActivity(), R.color.colorSecondary));
+        });
+        View notification = binding.notificationTouchView;
+
+
+        notification.setOnClickListener(view -> {
+            binding.timePickerCard.setVisibility(View.VISIBLE);
+        });
+
+        Button cancel = binding.btnCancel;
+        Button confirm = binding.btnConfirm;
+
+        cancel.setOnClickListener(v -> {
+            binding.timePickerCard.setVisibility(View.GONE);
+        });
+
+
+        confirm.setOnClickListener(v -> {
+            int hour = binding.timePicker.getHour();
+            int minute = binding.timePicker.getMinute();
+
+
+            SharedPreferencesUtils.saveTime(requireContext(), hour, minute);
+            AlarmScheduler.scheduleDiaryReminder(requireContext(), hour, minute);
+
+            Log.d("TimePicker", "선택된 시간: " + hour + ":" + minute);
+            Toast.makeText(requireActivity(), "알림 시간이 " + hour + ":" + minute + " 으로 변경되었습니다.", Toast.LENGTH_SHORT).show();
+
+            binding.timePickerCard.setVisibility(View.GONE);
         });
 
         return root;

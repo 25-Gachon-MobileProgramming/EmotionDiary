@@ -4,38 +4,44 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@color/colorBackground"
+    android:padding="16dp">
 
+    <!-- ⏰ 하단: 시간대 감정 그래프 -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/summaryFragmentTime"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginBottom="70dp"
+        android:layout_marginTop="12dp"
+        android:layout_marginBottom="12dp"
+        app:layout_constraintTop_toBottomOf="@+id/summaryFragmentCircle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHeight_percent="0.4" />
+        app:layout_constraintHeight_percent="0.35" />
 
-
+    <!-- 📈 좌측 상단: 원형 그래프 -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/summaryFragmentCircle"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginEnd="6dp"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toTopOf="@+id/summaryFragmentTime"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toStartOf="@+id/summaryFragmentEmotion"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintHeight_percent="0.4"
-        app:layout_constraintWidth_percent="0.5" />
+        app:layout_constraintWidth_percent="0.5"
+        app:layout_constraintHeight_percent="0.4" />
 
-
+    <!-- 😊 우측 상단: 감정 이모지 또는 요약 -->
     <androidx.fragment.app.FragmentContainerView
         android:id="@+id/summaryFragmentEmotion"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        app:layout_constraintTop_toTopOf="@+id/summaryFragmentCircle"
-        app:layout_constraintBottom_toBottomOf="@+id/summaryFragmentCircle"
-        app:layout_constraintStart_toEndOf="@+id/summaryFragmentCircle"
+        android:layout_marginStart="6dp"
+        app:layout_constraintTop_toTopOf="@id/summaryFragmentCircle"
+        app:layout_constraintBottom_toBottomOf="@id/summaryFragmentCircle"
+        app:layout_constraintStart_toEndOf="@id/summaryFragmentCircle"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintWidth_percent="0.5" />
 </androidx.constraintlayout.widget.ConstraintLayout>

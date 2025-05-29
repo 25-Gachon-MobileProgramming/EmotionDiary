@@ -36,12 +36,14 @@ import kr.co.gachon.emotion_diary.R;
 import kr.co.gachon.emotion_diary.data.AppDatabase;
 import kr.co.gachon.emotion_diary.data.DiaryDao;
 import kr.co.gachon.emotion_diary.data.EmotionCount;
+import kr.co.gachon.emotion_diary.data.Emotions;
 
 public class EmotionStatisticsFragment extends Fragment {
 
     private HorizontalBarChart barChart;
     private static final String SET_LABEL = "감정별 통계";
     private List<EmotionCount> emotions = new ArrayList<>();
+    private List<Integer> displayIds = new ArrayList<>();
 
     boolean isMonthly;
 
@@ -79,11 +81,8 @@ public class EmotionStatisticsFragment extends Fragment {
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.execute(() -> {
-                if (isMonthly) {
                     emotions = diaryDao.getEmotionCounts(startDate, endDate);
-                } else {
-                    emotions = diaryDao.getEmotionCounts(startDate, endDate);
-                }
+
 
                 requireActivity().runOnUiThread(() -> {
                     TextView placeHolder = view.findViewById(R.id.emotion_statistics_hint);
@@ -107,22 +106,24 @@ public class EmotionStatisticsFragment extends Fragment {
         barChart.getDescription().setEnabled(false);
         barChart.setTouchEnabled(false);
         barChart.getLegend().setEnabled(false);
-        barChart.setExtraOffsets(10f, 10f, 10f, 30f);
+        barChart.setExtraOffsets(10f, 20f, 10f, 10f);
         barChart.setHighlightFullBarEnabled(false);
-        barChart.setBackgroundColor(Color.TRANSPARENT);
 
         XAxis xAxis = barChart.getXAxis();
-        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setDrawAxisLine(false);
         xAxis.setGranularity(1f);
+        xAxis.setGranularityEnabled(true);
         xAxis.setTextSize(15f);
-        xAxis.setTextColor(Color.WHITE);
+
+
         xAxis.setDrawGridLines(false);
+        xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
                 int index = (int) value;
-                return (index >= 0 && index < emotions.size()) ? emotions.get(index).emotion : "";
+                Log.d("ChartEntry", "id=" + index);
+                return Emotions.getEmotionDataById(displayIds.get(index)).getEmoji();
             }
         });
 
@@ -139,15 +140,25 @@ public class EmotionStatisticsFragment extends Fragment {
 
     private BarData createChartData() {
         ArrayList<BarEntry> values = new ArrayList<>();
-        for (int i = 0; i < emotions.size(); i++) {
-            values.add(new BarEntry(i, emotions.get(i).count));
+        displayIds.clear();
+
+        for (int i = 0; i < Emotions.getAllEmotionIds().size(); i++) {
+            int id = Emotions.getAllEmotionIds().get(i);
+            EmotionCount ec = findEmotionById(emotions, id); // 아래 함수 참고
+            int count = ec != null ? ec.count : 0;
+
+            Log.d("ChartXValue", "BarEntry x=" + i);
+
+            values.add(new BarEntry(i, count));
+            displayIds.add(id);
+//            Log.d("ChartEntry", "id=" + id + ", count=" + count + ", emoji=" + Emotions.getEmotionDataById(id).getEmoji() + values.size());
         }
 
         BarDataSet set = new BarDataSet(values, SET_LABEL);
-        set.setColor(Color.RED);
+        set.setDrawIcons(false);
         set.setDrawValues(true);
-        set.setValueTextColor(Color.WHITE);
-        set.setValueTextSize(15f);
+        set.setColor(Color.parseColor("#FF0000"));
+
         set.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -156,13 +167,20 @@ public class EmotionStatisticsFragment extends Fragment {
         });
 
         BarData data = new BarData(set);
-        data.setBarWidth(0.1f); // 바 두께 조정
+        data.setBarWidth(0.2f);
+        data.setValueTextSize(15);
         return data;
     }
-
 
     private void prepareChartData(BarData data) {
         barChart.setData(data);
         barChart.invalidate();
     }
+    private EmotionCount findEmotionById(List<EmotionCount> list, int id) {
+        for (EmotionCount ec : list) {
+            if (ec.emotion_id == id) return ec;
+        }
+        return null;
+    }
+
 }

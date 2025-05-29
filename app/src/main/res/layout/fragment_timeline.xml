@@ -4,31 +4,41 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:layout_marginTop="8dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:paddingTop="16dp"
     tools:context=".ui.timeLine.TimeLineFragment">
 
-    <View
-        android:id="@+id/verticalLine"
-        android:layout_width="2dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="20dp"
-        android:layout_marginTop="20dp"
-        android:background="@color/divider"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+<!--    &lt;!&ndash; 타임라인 기준선 &ndash;&gt;-->
+<!--    <androidx.constraintlayout.widget.Guideline-->
+<!--        android:id="@+id/timelineGuideline"-->
+<!--        android:layout_width="wrap_content"-->
+<!--        android:layout_height="wrap_content"-->
+<!--        android:orientation="vertical"-->
+<!--        app:layout_constraintGuide_begin="40dp" />-->
 
+<!--    <View-->
+<!--        android:id="@+id/verticalLine"-->
+<!--        android:layout_width="2dp"-->
+<!--        android:layout_height="0dp"-->
+<!--        android:layout_marginTop="32dp"-->
+<!--        android:background="@color/colorSecondary"-->
+<!--        app:layout_constraintBottom_toBottomOf="parent"-->
+<!--        app:layout_constraintStart_toStartOf="@+id/timelineGuideline"-->
+<!--        app:layout_constraintTop_toTopOf="parent" />-->
+
+    <!-- 감정 카드 리사이클러뷰 -->
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/monthlyDiaryRecyclerView"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:layout_marginStart="13.5dp"
-        android:layout_marginEnd="13.5dp"
+        android:clipToPadding="false"
+        android:paddingStart="8dp"
+        android:paddingEnd="0dp"
+        android:paddingBottom="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         tools:listitem="@layout/item_monthly_diary" />
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

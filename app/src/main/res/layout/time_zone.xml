@@ -1,37 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/background">
+    android:background="@color/colorBackground"
+    android:padding="24dp">
 
+    <!-- ⏱ 시간 정보 -->
     <TextView
         android:id="@+id/time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="15464648"
-        android:textColor="@color/white"
+        android:text="25일 중 오전 11시가 가장 활발했어요!"
+        android:textColor="@color/colorOnBackground"
+        android:textSize="18sp"
+        android:fontFamily="@font/font"
+        android:gravity="center"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="300dp"/>
+        android:layout_marginTop="100dp" />
 
-
+    <!-- 📊 시간대 그래프 Fragment -->
     <FrameLayout
         android:id="@+id/timegraph_fragment_container"
-        android:layout_width="0dp"
+        android:layout_width="match_parent"
         android:layout_height="250dp"
+        android:layout_marginTop="32dp"
         app:layout_constraintTop_toBottomOf="@id/time"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="50dp" />
-    <Button
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- 📌 요약 버튼 -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/nextButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="요약 보기"
+        app:cornerRadius="16dp"
+        app:backgroundTint="@color/colorPrimary"
+        android:textColor="@color/colorOnPrimary"
+        android:layout_marginTop="32dp"
         app:layout_constraintTop_toBottomOf="@id/timegraph_fragment_container"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginTop="30dp" />
+        app:layout_constraintEnd_toEndOf="parent" />
 </androidx.constraintlayout.widget.ConstraintLayout>

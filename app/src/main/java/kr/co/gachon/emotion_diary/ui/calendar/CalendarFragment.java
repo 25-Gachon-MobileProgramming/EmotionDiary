@@ -1,7 +1,9 @@
 package kr.co.gachon.emotion_diary.ui.calendar;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -14,18 +16,23 @@ import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TableRow;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.Dimension;
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Objects;
 
 import kr.co.gachon.emotion_diary.R;
 import kr.co.gachon.emotion_diary.data.Diary;
@@ -33,6 +40,8 @@ import kr.co.gachon.emotion_diary.data.Emotions;
 import kr.co.gachon.emotion_diary.databinding.FragmentCalendarBinding;
 import kr.co.gachon.emotion_diary.helper.Helper;
 import kr.co.gachon.emotion_diary.ui.Remind.WriteRate.RateActivity;
+import kr.co.gachon.emotion_diary.ui.taro.TaroActivity;
+import kr.co.gachon.emotion_diary.ui.writePage.DiaryWriteActivity;
 
 public class CalendarFragment extends Fragment {
     private FragmentCalendarBinding binding;
@@ -160,7 +169,7 @@ public class CalendarFragment extends Fragment {
             for (String dayName : dayNames) {
                 TextView dayNameTextView = createEmotionTextView(dayName);
                 dayNameTextView.setTextSize(Dimension.SP, 25);
-                dayNameTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.calendar_text));
+                dayNameTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.colorSecondary));
                 dayNamesRow.addView(dayNameTextView);
             }
 
@@ -196,6 +205,11 @@ public class CalendarFragment extends Fragment {
                     ? Emotions.getEmotionDataById(diary.getEmotionId()).getEmoji()
                     : String.valueOf(currentDayOfMonth);
 
+            boolean isDiaryIncomplete = isDiaryExist && diary.getGptAnswer() == null;
+            boolean isDiaryComplete = isDiaryExist && diary.getGptAnswer() != null;
+
+            if (isDiaryIncomplete) calendarText = "⏳";
+
             TextView dayTextView = createEmotionTextView(calendarText);
             dayTextView.setTextSize(Dimension.SP, 20);
 
@@ -203,16 +217,78 @@ public class CalendarFragment extends Fragment {
                 dayTextView.setTextSize(Dimension.SP, 40);
             }
 
-            // int finalCurrentDayOfMonth = currentDayOfMonth; // For the lambda wtf
+            int finalCurrentDayOfMonth = currentDayOfMonth; // For the lambda wtf
             dayTextView.setOnClickListener(v -> {
-                // Toast.makeText(getContext(), year + "년 " + month + "월 " + finalCurrentDayOfMonth + "일 클릭", Toast.LENGTH_SHORT).show();
-                // 일기 작성했는지 판단하는 로직 => DB에서 불러올때 처리하는게 좋을 듯?
+                String dateString = String.format(Locale.getDefault(), "%04d-%02d-%02d", year, month, finalCurrentDayOfMonth);
+                SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd", Locale.getDefault());
 
-                // Intent intent = new Intent(getActivity(), WriteDiaryActivity.class);
-                // intent.putExtra("year", year);
-                // intent.putExtra("month", month);
-                // intent.putExtra("day", finalCurrentDayOfMonth);
-                // startActivity(intent);
+                try {
+                    Date date = formatter.parse(dateString);
+                    assert date != null;
+
+                    Calendar today = Calendar.getInstance();
+                    today.set(Calendar.HOUR_OF_DAY, 0);
+                    today.set(Calendar.MINUTE, 0);
+                    today.set(Calendar.SECOND, 0);
+                    today.set(Calendar.MILLISECOND, 0);
+
+                    Calendar targetDate = Calendar.getInstance();
+                    targetDate.setTime(date);
+                    targetDate.set(Calendar.HOUR_OF_DAY, 0);
+                    targetDate.set(Calendar.MINUTE, 0);
+                    targetDate.set(Calendar.SECOND, 0);
+                    targetDate.set(Calendar.MILLISECOND, 0);
+
+                    if (targetDate.after(today)) return;
+
+                    if (!isDiaryExist) {
+                        Intent intent = new Intent(getActivity(), DiaryWriteActivity.class);
+                        intent.putExtra("selectedDate", date.getTime());
+                        startActivity(intent);
+                    }
+
+                    if (isDiaryIncomplete) {
+                        Intent intent = new Intent(getActivity(), TaroActivity.class);
+                        intent.putExtra("date", date.getTime());
+                        intent.putExtra("title", diary.getTitle());
+                        intent.putExtra("content", diary.getContent());
+                        intent.putExtra("emotion", Emotions.getEmotionDataById(diary.getEmotionId()).getText());
+                        startActivity(intent);
+                    }
+
+                    if (isDiaryComplete) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(requireActivity());
+                        builder.setTitle("선택해주세요");
+                        builder.setMessage("원하는 작업을 선택하세요.");
+
+                        builder.setPositiveButton("결과", (dialog, which) -> {
+                            Intent intent = new Intent(getActivity(), TaroActivity.class);
+                            intent.putExtra("date", date.getTime());
+                            intent.putExtra("title", diary.getTitle());
+                            intent.putExtra("content", diary.getContent());
+                            intent.putExtra("emotion", Emotions.getEmotionDataById(diary.getEmotionId()).getText());
+                            startActivity(intent);
+
+                            dialog.dismiss();
+                        });
+
+                        builder.setNegativeButton("수정", (dialog, which) -> {
+                            Intent intent = new Intent(getActivity(), DiaryWriteActivity.class);
+                            intent.putExtra("selectedDate", date.getTime());
+                            startActivity(intent);
+
+                            dialog.dismiss();
+                        });
+
+                        AlertDialog dialog = builder.create();
+                        dialog.show();
+
+                        dialog.getButton(DialogInterface.BUTTON_POSITIVE).setTextColor(ContextCompat.getColor(requireContext(), R.color.colorSecondary));
+                        dialog.getButton(DialogInterface.BUTTON_NEGATIVE).setTextColor(ContextCompat.getColor(requireContext(), R.color.colorSecondary));
+                    }
+                } catch (ParseException e) {
+                    throw new RuntimeException(e);
+                }
             });
 
             boolean isToday = Calendar.getInstance().get(Calendar.YEAR) == calendarYear &&
@@ -285,7 +361,7 @@ public class CalendarFragment extends Fragment {
     private TextView createEmotionTextView(String text) {
         TextView textView = new TextView(getContext());
         textView.setText(text);
-        textView.setTextColor(ContextCompat.getColor(requireActivity(), R.color.calendar_text));
+        textView.setTextColor(ContextCompat.getColor(requireActivity(), R.color.colorOnSecondary));
         textView.setGravity(android.view.Gravity.CENTER);
 
         return textView;

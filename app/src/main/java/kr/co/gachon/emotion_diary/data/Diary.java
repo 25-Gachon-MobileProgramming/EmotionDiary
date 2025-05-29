@@ -1,6 +1,5 @@
 package kr.co.gachon.emotion_diary.data;
 
-import androidx.annotation.NonNull;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.Ignore;
@@ -25,11 +24,19 @@ public class Diary {
     @ColumnInfo(name = "emotion_id")
     private int emotionId;
 
-    public Diary(String title, String content, Date date, int emotionId) {
+    @ColumnInfo(name = "taro_name")
+    private String taroName;
+
+    @ColumnInfo(name = "gpt_answer")
+    private String gptAnswer;
+
+    public Diary(String title, String content, Date date, int emotionId, String taroName, String gptAnswer) {
         this.title = title;
         this.content = content;
         this.date = date;
         this.emotionId = emotionId;
+        this.taroName = taroName;
+        this.gptAnswer = gptAnswer;
     }
 
     public int getId() {
@@ -75,17 +82,34 @@ public class Diary {
         this.emotionId = emotionId;
     }
 
+    public String getTaroName() {
+        return taroName;
+    }
+
+    public void setTaroName(String taroName) {
+        this.taroName = taroName;
+    }
+
+    public String getGptAnswer() {
+        return gptAnswer;
+    }
+
+    public void setGptAnswer(String gptAnswer) {
+        this.gptAnswer = gptAnswer;
+    }
+
     @Ignore
     public String getEmotionEmoji() {
         Emotions.EmotionData emotionData = Emotions.getEmotionDataById(emotionId);
 
-        return (emotionData != null) ? emotionData.emoji : "❓";
+        return emotionData.emoji;
     }
 
     @Ignore
     public String getEmotionText() {
         Emotions.EmotionData data = Emotions.getEmotionDataById(emotionId);
 
-        return (data != null) ? data.getText() : "알 수 없는 감정";
+        return data.getText();
     }
+
 }

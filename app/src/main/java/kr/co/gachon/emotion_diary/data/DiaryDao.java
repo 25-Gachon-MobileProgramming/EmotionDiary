@@ -14,9 +14,8 @@ import java.util.List;
 public interface DiaryDao {
     @Query("SELECT COUNT(*) FROM diaries")
     int getDiaryCount();
-
     @Query("SELECT COUNT(*) > 0 FROM diaries WHERE date = :today")
-    boolean isDiaryWritten(String today);
+    boolean isDiaryWritten(Date today);
 
     @Query("SELECT * FROM diaries ORDER BY date DESC")
     LiveData<List<Diary>> getAllDiaries();
@@ -35,6 +34,10 @@ public interface DiaryDao {
 
     @Query("SELECT * FROM diaries WHERE date BETWEEN :startDate AND :endDate ORDER BY date ASC")
     LiveData<List<Diary>> getDiariesForDateRange(Date startDate, Date endDate);
+
+    @Query("SELECT * FROM diaries WHERE date >= :startOfDay AND date < :endOfNextDay ORDER BY date ASC")
+    List<Diary> getDiariesForSpecificDayOnce(Date startOfDay, Date endOfNextDay);
+
 
     @Query("SELECT emotion_id, COUNT(*) as count FROM diaries WHERE date BETWEEN :startDate AND :endDate GROUP BY emotion_id")
     List<EmotionCount> getEmotionCounts(Date startDate, Date endDate);

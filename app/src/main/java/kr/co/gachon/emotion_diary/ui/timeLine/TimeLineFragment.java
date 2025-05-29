@@ -35,13 +35,14 @@ public class TimeLineFragment extends Fragment implements MonthlyDiaryAdapter.On
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        TimeLineViewModel timeLineViewModel =
-                new ViewModelProvider(this).get(TimeLineViewModel.class);
+//        TimeLineViewModel timeLineViewModel =
+//                new ViewModelProvider(this).get(TimeLineViewModel.class);
 
         binding = FragmentTimelineBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
 
         RecyclerView monthlyDiaryRecyclerView = binding.monthlyDiaryRecyclerView;
+        monthlyDiaryRecyclerView.addItemDecoration(new TimelineItemDecoration(requireContext()));
         monthlyDiaryRecyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
 
 

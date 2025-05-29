@@ -1,0 +1,21 @@
+<resources>
+    <!-- Primary (Dark navy) -->
+    <color name="colorPrimary">#283d51</color>
+    <color name="colorPrimaryVariant">#1f2f3f</color>
+    <color name="colorOnPrimary">#ffffff</color>
+
+    <!-- Secondary (Gold accent) -->
+    <color name="colorSecondary">#dbbd7b</color>
+    <color name="colorSecondaryVariant">#b99b5f</color>
+    <color name="colorOnSecondary">#000000</color>
+
+    <!-- Background / Surface -->
+    <color name="colorBackground">#1b2530</color>
+    <color name="colorOnBackground">#ffffff</color>
+    <color name="colorSurface">#1b2936</color>
+    <color name="colorOnSurface">#ffffff</color>
+
+    <!-- Error -->
+    <color name="colorError">#B00020</color>
+    <color name="colorOnError">#ffffff</color>
+</resources>

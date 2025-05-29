@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters; // Date 타입 변환을 위해 추가
 
-@Database(entities = {Diary.class}, version = 6, exportSchema = false)
+@Database(entities = {Diary.class}, version = 7, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract DiaryDao diaryDao();
@@ -29,19 +29,4 @@ public abstract class AppDatabase extends RoomDatabase {
 
         return INSTANCE;
     }
-    public static AppDatabase getInstance(Context context) {
-        if (INSTANCE == null) {
-            synchronized (AppDatabase.class) {
-                if (INSTANCE == null) {
-                    INSTANCE = Room.databaseBuilder(
-                            context.getApplicationContext(),
-                            AppDatabase.class,
-                            "emotion-diary-db"
-                    ).build();
-                }
-            }
-        }
-        return INSTANCE;
-    }
-
 }

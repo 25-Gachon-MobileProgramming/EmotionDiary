@@ -93,6 +93,10 @@ public final class Emotions {
     public static List<EmotionData> getAllEmotionDataList() {
         return List.copyOf(EMOTION_DATA_MAP_BY_TEXT.values());
     }
+    public static List<Integer> getAllEmotionIds() {
+        return List.copyOf(EMOTION_DATA_MAP_BY_ID.keySet());
+    }
+
 
     private static EmotionData getDefaultEmotionData() {
         return new EmotionData(-1, "몰루", "❓");

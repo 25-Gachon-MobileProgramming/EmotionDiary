@@ -1,73 +1,92 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto">
-
-    <!-- 첫 번째 배경: background.png -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/background"
-        android:scaleType="centerCrop" />
-
-    <!-- 두 번째 배경: yellow_notebook.png -->
-    <!-- 첫 번째 배경위에다가 두 번째 배경을 씌움 -->
-    <ImageView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:src="@drawable/yellow_notebook"
-        android:scaleType="fitCenter"
-        />
+    android:background="@color/colorBackground"
+    android:padding="24dp">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="50dp"
-        android:layout_gravity="center"
         android:orientation="vertical"
-        android:gravity="center_horizontal">
+        android:gravity="center_horizontal"
+        android:padding="16dp"
+        android:background="@color/colorSurface"
+        android:elevation="4dp"
+        android:layout_gravity="center"
+        android:layout_marginTop="32dp"
+        android:layout_marginBottom="32dp">
 
+        <!-- 날짜 -->
         <TextView
             android:id="@+id/dateTextView"
-            android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:textSize="30dp"
-            android:textColor="@color/black"
-            android:text="@string/current_date" />
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/current_date"
+            android:textColor="@color/colorOnSurface"
+            android:textSize="22sp"
+            android:textStyle="bold"
+            android:layout_marginBottom="16dp"/>
 
-        <EditText
-            android:id="@+id/titleTextView"
+        <!-- 제목 입력 -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="50dp"
-            android:hint="제목"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
-            android:foregroundTint="@color/black"
-            android:maxLength="30"
-            android:fontFamily="@font/font"
-            android:textFontWeight="700"
-            android:textSize="25sp" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/colorPrimary"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
 
-        <EditText
-            android:id="@+id/contentTextView"
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/titleTextView"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="제목"
+                android:maxLength="30"
+                android:textColor="@color/colorOnSurface"
+                android:textColorHint="@color/colorOnSurface"
+                android:textSize="18sp"
+                android:fontFamily="@font/font"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- 내용 입력 -->
+        <com.google.android.material.textfield.TextInputLayout
             android:layout_width="match_parent"
-            android:layout_height="200dp"
-            android:fontFamily="@font/font"
-            android:textFontWeight="700"
-            android:hint="작성하시오"
-            android:textColor="@color/black"
-            android:textColorHint="@color/black"
-            android:foregroundTint="@color/black"
-            android:textSize="18sp"
-            android:maxLength="150"
-            android:gravity="start|top" />
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="24dp"
+            app:boxBackgroundMode="outline"
+            app:boxStrokeColor="@color/colorPrimary"
+            app:boxCornerRadiusTopStart="12dp"
+            app:boxCornerRadiusTopEnd="12dp"
+            app:boxCornerRadiusBottomStart="12dp"
+            app:boxCornerRadiusBottomEnd="12dp">
 
-        <Button
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/contentTextView"
+                android:layout_width="match_parent"
+                android:layout_height="200dp"
+                android:hint="내용을 입력하세요"
+                android:maxLength="150"
+                android:gravity="start|top"
+                android:textColor="@color/colorOnSurface"
+                android:textColorHint="@color/colorOnSurface"
+                android:textSize="16sp"
+                android:fontFamily="@font/font"/>
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <!-- 버튼 -->
+        <com.google.android.material.button.MaterialButton
             android:id="@+id/nextPage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_gravity="end"
-            android:fontFamily="@font/font"
-            android:text="emotion select" />
+            android:text="감정 선택"
+            android:textColor="@color/colorOnPrimary"
+            app:backgroundTint="@color/colorPrimary"
+            app:cornerRadius="16dp"
+            app:iconPadding="8dp" />
     </LinearLayout>
-</FrameLayout>
+</ScrollView>

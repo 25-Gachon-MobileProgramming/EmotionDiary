@@ -1,102 +1,157 @@
-<?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="horizontal"
-    tools:context=".ui.calendar.CalendarFragment">
+    android:background="@color/colorBackground"
+    android:padding="16dp">
 
-    <com.google.android.material.card.MaterialCardView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:checkable="false"
-        android:clickable="false"
-        android:elevation="8dp"
-        app:cardBackgroundColor="@color/cardview_dark_background">
+        android:orientation="vertical">
 
-        <LinearLayout
+        <com.google.android.material.card.MaterialCardView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="vertical"
-            android:padding="24dp">
-
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginBottom="24dp"
-                android:gravity="center">
-
-                <ImageView
-                    android:layout_marginStart="8dp"
-                    android:id="@+id/prevMonthButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:contentDescription="@string/show_previous_month_text"
-                    android:src="@drawable/chevron_left"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/white" />
-
-                <TextView
-                    android:id="@+id/monthYearText"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:textColor="@android:color/white"
-                    android:textSize="24sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-
-                <ImageView
-                    android:id="@+id/nextMonthButton"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginEnd="8dp"
-                    android:contentDescription="@string/show_next_month_text"
-                    android:src="@drawable/chevron_right"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:tint="@color/white" />
-            </androidx.constraintlayout.widget.ConstraintLayout>
-
-            <TableLayout
-                android:id="@+id/calendar"
-                android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                app:layout_constraintLeft_toLeftOf="parent"
-                app:layout_constraintRight_toRightOf="parent"
-                app:layout_constraintTop_toTopOf="parent"
-                android:layout_marginBottom="8dp"/>
+            android:layout_marginBottom="16dp"
+            app:cardBackgroundColor="@color/colorSurface"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp">
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal" >
+                android:orientation="vertical"
+                android:padding="20dp">
 
-                <TextView
-                    android:id="@+id/showMonthlyStat"
-                    android:layout_width="wrap_content"
+                <!-- 월 이동 & 표시 -->
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="월별 통계"
-                    android:textColor="@color/teal_200"
-                    android:textSize="20sp"
-                    android:layout_marginStart="12dp"/>
+                    android:layout_marginBottom="16dp">
 
-                <TextView
-                    android:id="@+id/showYearlyStat"
-                    android:layout_width="wrap_content"
+                    <ImageView
+                        android:id="@+id/prevMonthButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/chevron_left"
+                        android:contentDescription="@string/show_previous_month_text"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:tint="@color/colorOnSurface" />
+
+                    <TextView
+                        android:id="@+id/monthYearText"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:textColor="@color/colorOnSurface"
+                        android:textSize="20sp"
+                        android:fontFamily="@font/dunggeunmo"
+                        app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        android:gravity="center" />
+
+                    <ImageView
+                        android:id="@+id/nextMonthButton"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:src="@drawable/chevron_right"
+                        android:contentDescription="@string/show_next_month_text"
+                        app:layout_constraintEnd_toEndOf="parent"
+                        app:layout_constraintTop_toTopOf="parent"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:tint="@color/colorOnSurface" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+
+                <TableLayout
+                    android:id="@+id/calendar"
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="연도별 통계"
-                    android:textColor="@color/teal_200"
-                    android:textSize="20sp"
-                    android:layout_marginStart="12dp"/>
+                    android:layout_marginTop="8dp"
+                    android:layout_marginBottom="8dp" />
             </LinearLayout>
-        </LinearLayout>
-    </com.google.android.material.card.MaterialCardView>
-</LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+        <com.google.android.material.card.MaterialCardView
+            android:id="@+id/selectedDiaryCard"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="16dp"
+            android:visibility="gone"
+            app:cardBackgroundColor="@color/colorSurface"
+            app:cardElevation="4dp"
+            app:cardCornerRadius="12dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:padding="16dp">
+
+                <TextView
+                    android:id="@+id/diaryTitle"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="제목이 여기에 표시됩니다"
+                    android:textSize="18sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/colorOnSurface"
+                    android:layout_marginBottom="8dp" />
+
+                <TextView
+                    android:id="@+id/diaryContentPreview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="해당 날짜의 일기 미리보기 내용이 여기에 들어갑니다."
+                    android:textSize="14sp"
+                    android:textColor="@color/colorOnSurface"
+                    android:maxLines="3"
+                    android:ellipsize="end" />
+            </LinearLayout>
+        </com.google.android.material.card.MaterialCardView>
+
+
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:gravity="center">
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/showMonthlyStat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="월별 통계"
+                    android:textColor="@color/colorOnPrimary"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:cornerRadius="12dp"
+                    app:icon="@drawable/baseline_calendar_month_24"
+                    app:iconTint="@color/colorOnPrimary"
+                    app:iconPadding="8dp" />
+
+                <View
+                    android:layout_width="16dp"
+                    android:layout_height="0dp" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/showYearlyStat"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:text="연도별 통계"
+                    android:textColor="@color/colorOnPrimary"
+                    app:backgroundTint="@color/colorPrimary"
+                    app:cornerRadius="12dp"
+                    app:icon="@drawable/chart_box_outline"
+                    app:iconTint="@color/colorOnPrimary"
+                    app:iconPadding="8dp" />
+            </LinearLayout>
+
+    </LinearLayout>
+</ScrollView>

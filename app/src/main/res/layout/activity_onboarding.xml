@@ -3,23 +3,31 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorBackground"
+    android:gravity="center"
     android:orientation="vertical"
-    android:background="#706495">
+    android:paddingTop="?attr/actionBarSize">
 
+    <!-- 페이지 슬라이더 -->
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
+        android:layout_marginTop="?attr/actionBarSize"
         android:layout_weight="1"
         android:background="@android:color/transparent" />
 
+    <!-- 페이지 인디케이터 (worm style) -->
     <com.tbuonomo.viewpagerdotsindicator.WormDotsIndicator
         android:id="@+id/dotsIndicator"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="24dp"
+        android:layout_marginBottom="32dp"
         android:background="@android:color/transparent"
-        android:elevation="0dp" />
-
+        android:elevation="4dp"
+        app:dotsColor="@color/colorSecondary"
+        app:dotsSize="10dp"
+        app:dotsStrokeColor="@color/colorOnSecondary"
+        app:selectedDotColor="@color/colorOnSecondary" />
 </LinearLayout>
