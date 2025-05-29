@@ -27,8 +27,8 @@ public class HomeFragment extends Fragment {
         View root = binding.getRoot();
 
         diaryRepository = new DiaryRepository(requireActivity().getApplication());
-
         setupDatePager();
+
 
         return root;
     }
@@ -68,4 +68,5 @@ public class HomeFragment extends Fragment {
         super.onDestroyView();
         binding = null;
     }
+
 }

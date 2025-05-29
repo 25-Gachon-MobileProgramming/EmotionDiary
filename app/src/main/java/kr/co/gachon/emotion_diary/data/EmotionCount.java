@@ -13,5 +13,6 @@ public class EmotionCount {
         this.count = count;
         this.emotion = Emotions.getEmotionDataById(emotion_id).getText(); // 감정명 설정
     }
+
 }
 

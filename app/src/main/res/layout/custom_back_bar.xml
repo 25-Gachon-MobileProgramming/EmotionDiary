@@ -4,7 +4,9 @@
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
     android:background="@color/colorPrimary"
-    android:elevation="4dp">
+    android:elevation="4dp"
+    android:paddingStart="8dp"
+    android:paddingEnd="8dp">
 
     <!-- 뒤로가기 버튼 -->
     <ImageButton
@@ -27,7 +29,7 @@
         android:textColor="@color/colorOnPrimary"
         android:textSize="20sp"
         android:fontFamily="@font/dunggeunmo"
-        app:layout_constraintStart_toEndOf="@id/backButtonActionBar"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
