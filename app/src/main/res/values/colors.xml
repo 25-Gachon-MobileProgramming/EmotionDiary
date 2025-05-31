@@ -1,24 +1,21 @@
-<?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <color name="purple_200">#FFBB86FC</color>
-    <color name="purple_500">#FF6200EE</color>
-    <color name="purple_700">#FF3700B3</color>
-    <color name="teal_200">#FF03DAC5</color>
-    <color name="teal_700">#FF018786</color>
-    <color name="black">#FF000000</color>
-    <color name="white">#FFFFFFFF</color>
-    <color name="primary">#2A2E41</color>
-    <color name="divider">#565F8C</color>
-    <color name="green">#008000</color>
+    <!-- Primary (Light theme) -->
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryVariant">#f0f0f0</color>
+    <color name="colorOnPrimary">#000000</color>
 
-    <color name="calendar_text">#FFFFFF</color>
-    <color name="calendar_today_color">#3f51b5</color>
+    <!-- Secondary (Gold accent) -->
+    <color name="colorSecondary">#dbbd7b</color>
+    <color name="colorSecondaryVariant">#b99b5f</color>
+    <color name="colorOnSecondary">#000000</color>
 
-    <color name="timeline_background">#A9A9A9</color>
-    <color name="timeline_text">#FFFFFF</color>
-    <color name="timeline_circle_bg">#6E79A0</color>
+    <!-- Background / Surface -->
+    <color name="colorBackground">#fafafa</color>
+    <color name="colorOnBackground">#000000</color>
+    <color name="colorSurface">#ffffff</color>
+    <color name="colorOnSurface">#000000</color>
 
-
-    <color name="write_fab_bg">#2A2E41</color>
-
+    <!-- Error -->
+    <color name="colorError">#B00020</color>
+    <color name="colorOnError">#ffffff</color>
 </resources>

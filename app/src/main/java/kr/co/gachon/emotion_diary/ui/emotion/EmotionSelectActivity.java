@@ -13,7 +13,10 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.core.content.ContextCompat;
+
+import com.google.android.material.button.MaterialButton;
 
 import java.util.Date;
 import java.util.List;
@@ -44,6 +47,9 @@ public class EmotionSelectActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             actionBar.setCustomView(R.layout.custom_back_bar);
+
+            Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();
+            parent.setContentInsetsAbsolute(0, 0);
 
             ImageButton backButton = actionBar.getCustomView().findViewById(R.id.backButtonActionBar);
             backButton.setOnClickListener(v -> finish());
@@ -79,14 +85,25 @@ public class EmotionSelectActivity extends AppCompatActivity {
 
             if (diariesOnce != null && !diariesOnce.isEmpty()) {
                 Diary diary = diariesOnce.get(0);
-                Intent taroPageIntent = new Intent(EmotionSelectActivity.this, TaroActivity.class);
-                taroPageIntent.putExtra("date", dateMillis);
-                taroPageIntent.putExtra("title", diary.getTitle());
-                taroPageIntent.putExtra("content", diary.getContent());
-                taroPageIntent.putExtra("emotion", diary.getEmotionText());
-                taroPageIntent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(taroPageIntent);
-                finish();
+                String emotionFromDiary = diary.getEmotionText();
+
+                runOnUiThread(() -> {
+                    GridLayout emotionGrid = findViewById(R.id.emotionGrid);
+
+                    for (int i = 0; i < emotionGrid.getChildCount(); i++) {
+                        MaterialButton button = (MaterialButton) emotionGrid.getChildAt(i);
+                        String buttonEmotionText = button.getContentDescription().toString();
+
+                        if (buttonEmotionText.equals(emotionFromDiary)) {
+                            button.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorSecondary));
+                            button.setTextColor(ContextCompat.getColor(this, R.color.colorOnSecondary));
+
+                            selectedEmotion = emotionFromDiary;
+                            previousButton = button;
+                            break;
+                        }
+                    }
+                });
             }
         }).start();
 
@@ -115,36 +132,42 @@ public class EmotionSelectActivity extends AppCompatActivity {
 
     private void makeEmotionButtons() {
         GridLayout emotionGrid = findViewById(R.id.emotionGrid);
-
         List<Emotions.EmotionData> emotionList = Emotions.getAllEmotionDataList();
+
         for (Emotions.EmotionData emotion : emotionList) {
             String text = emotion.getText();
             String emoji = emotion.getEmoji();
 
-            Button emojiButton = new Button(this);
+            MaterialButton emojiButton = new MaterialButton(this, null, com.google.android.material.R.attr.materialButtonOutlinedStyle);
 
             emojiButton.setText(String.format("%s\n%s", emoji, text));
             emojiButton.setContentDescription(text);
-            emojiButton.setTextSize(20);
-            emojiButton.setPadding(16, 16, 16, 16);
+            emojiButton.setTextSize(18);
             emojiButton.setAllCaps(false);
-            emojiButton.setBackgroundColor(Color.TRANSPARENT);
-            emojiButton.setTextColor(Color.WHITE);
             emojiButton.setGravity(Gravity.CENTER);
+            emojiButton.setPadding(16, 16, 16, 16);
+
+            // 텍스트 색상 및 배경 설정
+            emojiButton.setTextColor(ContextCompat.getColor(this, R.color.colorOnSurface));
+            emojiButton.setStrokeColorResource(R.color.colorPrimary);
+            emojiButton.setStrokeWidth(2);
+            emojiButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorSurface));
 
             GridLayout.LayoutParams params = new GridLayout.LayoutParams();
             params.width = 0;
             params.height = ViewGroup.LayoutParams.WRAP_CONTENT;
             params.columnSpec = GridLayout.spec(GridLayout.UNDEFINED, 1f);
+            params.setMargins(8, 8, 8, 8);
             emojiButton.setLayoutParams(params);
 
             emojiButton.setOnClickListener(v -> {
                 if (previousButton != null && previousButton != emojiButton) {
-                    previousButton.setBackgroundColor(Color.TRANSPARENT);
-                    previousButton.setTextColor(Color.WHITE);
+                    previousButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorSurface));
+                    previousButton.setTextColor(ContextCompat.getColor(this, R.color.colorOnSurface));
                 }
 
-                emojiButton.setBackgroundColor(ContextCompat.getColor(EmotionSelectActivity.this, R.color.green));
+                emojiButton.setBackgroundTintList(ContextCompat.getColorStateList(this, R.color.colorSecondary));
+                emojiButton.setTextColor(ContextCompat.getColor(this, R.color.colorOnSecondary));
 
                 selectedEmotion = text;
                 previousButton = emojiButton;
@@ -153,6 +176,7 @@ public class EmotionSelectActivity extends AppCompatActivity {
             emotionGrid.addView(emojiButton);
         }
     }
+
 }
 
 

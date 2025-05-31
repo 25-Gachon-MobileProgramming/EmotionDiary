@@ -1,16 +1,21 @@
 package kr.co.gachon.emotion_diary.data;
 
 import android.app.Application;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.Transformations;
 
 import java.text.SimpleDateFormat;
+import java.time.LocalDate;
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -78,6 +83,40 @@ public class DiaryRepository {
     public void delete(Diary diary) {
         executorService.execute(() -> diaryDao.deleteDiary(diary));
     }
+
+
+    public interface DiaryMapCallback {
+        void onResult(Map<LocalDate, Diary> diaryMap);
+    }
+
+    public void getDiaryMapForRangeAsync(LocalDate start, LocalDate end, DiaryMapCallback callback) {
+        executorService.execute(() -> {
+            Map<LocalDate, Diary> diaryMap = new HashMap<>();
+            Calendar startCal = Calendar.getInstance();
+            Calendar endCal = Calendar.getInstance();
+            startCal.set(start.getYear(), start.getMonthValue() - 1, start.getDayOfMonth(), 0, 0, 0);
+            startCal.set(Calendar.MILLISECOND, 0);
+            endCal.set(end.getYear(), end.getMonthValue() - 1, end.getDayOfMonth(), 23, 59, 59);
+            endCal.set(Calendar.MILLISECOND, 999);
+
+            List<Diary> diaryList = diaryDao.getDiariesForSpecificDayOnce(startCal.getTime(), endCal.getTime());
+
+            for (Diary diary : diaryList) {
+                Calendar cal = Calendar.getInstance();
+                cal.setTime(diary.getDate());
+                LocalDate key = LocalDate.of(
+                        cal.get(Calendar.YEAR),
+                        cal.get(Calendar.MONTH) + 1,
+                        cal.get(Calendar.DAY_OF_MONTH)
+                );
+                diaryMap.put(key, diary);
+            }
+
+            // 메인스레드로 콜백 전달
+            new Handler(Looper.getMainLooper()).post(() -> callback.onResult(diaryMap));
+        });
+    }
+
 
     public void insertDummyData() {
         executorService.execute(() -> {

@@ -2,12 +2,11 @@ package kr.co.gachon.emotion_diary.ui.OnBoarding;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.os.Bundle;
-import android.os.Handler;
-import android.view.animation.Animation;
-import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
-import android.widget.TextView;
+import android.widget.VideoView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -16,63 +15,34 @@ import kr.co.gachon.emotion_diary.R;
 
 public class SplashActivity extends AppCompatActivity {
 
-    private ImageView logoImageView;
-    private TextView titleTextView;
-    private Animation alphaAnimation;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
 
-        logoImageView = findViewById(R.id.logoImageView);
-        titleTextView = findViewById(R.id.titleTextView);
+        VideoView logoVideoView = findViewById(R.id.logoVideoView);
+        ImageView videoPlaceholder = findViewById(R.id.videoPlaceholder);
 
-        // 애니메이션 로드
-        alphaAnimation = AnimationUtils.loadAnimation(this, R.anim.alpha);
+        Uri videoUri = Uri.parse("android.resource://" + getPackageName() + "/" + R.raw.logovideo);
+        logoVideoView.setVideoURI(videoUri);
 
-        // 3초 후 애니메이션 시작 및 화면 전환
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                // 애니메이션 시작
-                logoImageView.startAnimation(alphaAnimation);
-                titleTextView.startAnimation(alphaAnimation);
+        // 영상 준비되면 썸네일 제거 + 영상 재생
+        logoVideoView.setOnPreparedListener(mp -> {
+            videoPlaceholder.setVisibility(ImageView.GONE);
+            logoVideoView.start();
+        });
 
-                // 애니메이션 리스너 설정
-                alphaAnimation.setAnimationListener(new Animation.AnimationListener() {
-                    @Override
-                    public void onAnimationStart(Animation animation) {
-                        // 애니메이션 시작 시 동작
-                    }
+        // 영상 끝나면 다음 화면으로
+        logoVideoView.setOnCompletionListener(mp -> {
+            SharedPreferences prefs = getSharedPreferences("avatar_pref", MODE_PRIVATE);
+            boolean isAvatarCompleted = prefs.getBoolean("isAvatarCompleted", false);
 
-                    @Override
-                    public void onAnimationEnd(Animation animation) {
-                        // 애니메이션 종료 시 View를 숨김 처리 (이걸 안하면 마지막에 한번 더 등장)
-                        logoImageView.setVisibility(ImageView.INVISIBLE);
-                        titleTextView.setVisibility(TextView.INVISIBLE);
+            Intent intent = isAvatarCompleted ?
+                    new Intent(SplashActivity.this, MainActivity.class) :
+                    new Intent(SplashActivity.this, OnBoardingActivity.class);
 
-                        // SharedPreferences로 값 확인 (Avatar가 중복 설정되지 않게)
-                        SharedPreferences prefs = getSharedPreferences("avatar_pref", MODE_PRIVATE);
-                        boolean isAvatarCompleted = prefs.getBoolean("isAvatarCompleted", false);
-
-                        Intent intent;
-                        if (isAvatarCompleted) {
-                            intent = new Intent(SplashActivity.this, MainActivity.class);
-                        } else {
-                            intent = new Intent(SplashActivity.this, OnBoardingActivity.class);
-                        }
-                        startActivity(intent);
-                        finish();
-                    }
-
-                    @Override
-                    public void onAnimationRepeat(Animation animation) {
-                        // 반복 애니메이션 처리
-                    }
-                });
-            }
-        }, 3000); // 3000 milliseconds = 3 seconds
+            startActivity(intent);
+            finish();
+        });
     }
 }
-

@@ -69,8 +69,8 @@ public class CircleGraphView extends View {
         float startAngle = -90f;
 
         int[] sectionColors = new int[]{
-                R.color.purple_200,
-                R.color.purple_500
+                R.color.colorPrimary,
+                R.color.colorSecondary
         };
 
 
@@ -82,7 +82,7 @@ public class CircleGraphView extends View {
         }
         int mainPercentage = (int) (sweepAngles[0] / 360f * 100f);
         Paint centerTextPaint = new Paint(Paint.ANTI_ALIAS_FLAG);
-        centerTextPaint.setColor(getContext().getColor(R.color.white));
+        centerTextPaint.setColor(getContext().getColor(R.color.colorOnBackground));
         centerTextPaint.setTextAlign(Paint.Align.CENTER);
         centerTextPaint.setTextSize(60f);
         centerTextPaint.setTypeface(ResourcesCompat.getFont(getContext(), R.font.temp));

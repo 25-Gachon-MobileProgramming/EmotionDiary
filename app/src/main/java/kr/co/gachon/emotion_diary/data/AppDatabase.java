@@ -7,7 +7,7 @@ import androidx.room.Room;
 import androidx.room.RoomDatabase;
 import androidx.room.TypeConverters; // Date 타입 변환을 위해 추가
 
-@Database(entities = {Diary.class}, version = 6, exportSchema = false)
+@Database(entities = {Diary.class}, version = 7, exportSchema = false)
 @TypeConverters({Converters.class})
 public abstract class AppDatabase extends RoomDatabase {
     public abstract DiaryDao diaryDao();

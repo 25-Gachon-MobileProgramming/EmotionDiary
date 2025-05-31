@@ -1,33 +1,79 @@
-<?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<com.google.android.material.card.MaterialCardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/date_card"
-    android:layout_gravity="center"
-    android:elevation="3dp">
+    android:layout_margin="16dp"
+    app:cardCornerRadius="20dp"
+    app:cardElevation="6dp"
+    app:strokeWidth="2dp"
+    app:strokeColor="@color/colorPrimary"
+    app:cardBackgroundColor="@color/colorSurface"
+    android:id="@+id/taro_daily">
 
-    <LinearLayout
+    <RelativeLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:gravity="center"
-        android:padding="20dp">
+        android:layout_height="match_parent">
 
-        <TextView
-            android:id="@+id/dateTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="2025.1\n TUE"
-            android:textSize="50dp"
-            android:textColor="@android:color/white" />
+        <ImageView
+            android:id="@+id/tarotImage"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:contentDescription="@string/taro_background"
+            android:scaleType="centerCrop"
+            android:adjustViewBounds="true"
+            android:visibility="gone"
+            android:alpha="0.85"
+            android:src="@drawable/taro_chariot" />
 
-        <TextView
-            android:id="@+id/dayTextView"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="21"
-            android:textSize="230dp"
-            android:textColor="@android:color/white"
-            android:textStyle="bold" />
-    </LinearLayout>
-</FrameLayout>
+        <View
+            android:id="@+id/imageOverlay"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#77000000"
+            android:visibility="gone" />
+
+        <!-- 날짜 + 감정 정보 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:padding="24dp">
+
+            <!-- 날짜 헤더 -->
+            <TextView
+                android:id="@+id/dateTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="2025.6.1 SUN"
+                android:textSize="22sp"
+                android:fontFamily="@font/dunggeunmo"
+                android:textColor="@color/colorOnSurface"
+                android:letterSpacing="0.02"
+                android:layout_marginBottom="8dp"/>
+
+            <!-- 날짜 숫자 -->
+            <TextView
+                android:id="@+id/dayTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="01"
+                android:textSize="120sp"
+                android:textStyle="bold"
+                android:fontFamily="@font/dunggeunmo"
+                android:textColor="@color/colorSecondary"
+                android:layout_marginBottom="16dp"/>
+
+            <!-- 감정 메시지 -->
+            <TextView
+                android:id="@+id/emotionHintText"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="오늘의 감정을 기록해보세요 ✍️"
+                android:textSize="18sp"
+                android:fontFamily="@font/font"
+                android:textColor="@color/colorOnSurface"
+                android:layout_marginTop="8dp"/>
+        </LinearLayout>
+    </RelativeLayout>
+</com.google.android.material.card.MaterialCardView>

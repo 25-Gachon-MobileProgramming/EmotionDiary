@@ -14,7 +14,9 @@ import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.content.ContextCompat;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
@@ -128,7 +130,7 @@ public class AvatarActivity extends AppCompatActivity {
 
             final String birthDate = String.format("%04d-%02d-%02d", selectedYear, selectedMonth, selectedDay);
 
-            new android.app.AlertDialog.Builder(AvatarActivity.this)
+            AlertDialog dialogBuilder = new AlertDialog.Builder(AvatarActivity.this)
                     .setTitle("입력 확인")
                     .setMessage("닉네임: " + input + "\n성별: " + gender + "\n생년월일: " + birthDate + "\n\n입력하신 내용이 맞습니까?")
                     .setPositiveButton("확인", (dialog, which) -> {
@@ -149,6 +151,11 @@ public class AvatarActivity extends AppCompatActivity {
                     })
                     .setNegativeButton("취소", null)
                     .show();
+
+            dialogBuilder.getButton(AlertDialog.BUTTON_POSITIVE)
+                    .setTextColor(ContextCompat.getColor(this, R.color.colorSecondary));
+            dialogBuilder.getButton(AlertDialog.BUTTON_NEGATIVE)
+                    .setTextColor(ContextCompat.getColor(this, R.color.colorSecondary));
         });
     }
 

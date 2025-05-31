@@ -76,7 +76,7 @@ dependencies {
 
     // optional - Paging 3 Integration
     implementation(libs.androidx.room.paging)
-
+    implementation(libs.material.v1110)
     implementation(libs.appcompat)
     implementation(libs.material)
     implementation(libs.constraintlayout)
@@ -85,13 +85,15 @@ dependencies {
     implementation(libs.navigation.fragment)
     implementation(libs.navigation.ui)
     implementation(libs.circleimageview) //뷰를 완전히 원으로 보여줌
-    implementation (libs.dotsindicator) // 온보딩 스크롤바 라이브러리
     testImplementation(libs.junit)
     androidTestImplementation(libs.ext.junit)
     androidTestImplementation(libs.espresso.core)
     implementation(libs.mpandroidchart)
-
     implementation(libs.retrofit)
-    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation(libs.dotsindicator.v510)
+    implementation(libs.converter.gson)
+    implementation(libs.tedpermission.normal)
+    implementation ("com.github.bumptech.glide:glide:4.16.0") //gif파일 관련
+    annotationProcessor ("com.github.bumptech.glide:compiler:4.16.0")
 
 }

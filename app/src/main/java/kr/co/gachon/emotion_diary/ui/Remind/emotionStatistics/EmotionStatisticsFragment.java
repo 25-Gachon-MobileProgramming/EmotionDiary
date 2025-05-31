@@ -16,6 +16,7 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.github.mikephil.charting.charts.BarChart;
+import com.github.mikephil.charting.charts.HorizontalBarChart;
 import com.github.mikephil.charting.components.XAxis;
 import com.github.mikephil.charting.components.YAxis;
 import com.github.mikephil.charting.data.BarData;
@@ -35,10 +36,11 @@ import kr.co.gachon.emotion_diary.R;
 import kr.co.gachon.emotion_diary.data.AppDatabase;
 import kr.co.gachon.emotion_diary.data.DiaryDao;
 import kr.co.gachon.emotion_diary.data.EmotionCount;
+import kr.co.gachon.emotion_diary.data.Emotions;
 
 public class EmotionStatisticsFragment extends Fragment {
 
-    private BarChart barChart;
+    private HorizontalBarChart barChart;
     private static final String SET_LABEL = "감정별 통계";
     private List<EmotionCount> emotions = new ArrayList<>();
 
@@ -60,6 +62,7 @@ public class EmotionStatisticsFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         barChart = view.findViewById(R.id.chart);
+        initializeEmotions();
         AppDatabase db = AppDatabase.getDatabase(requireContext());
         DiaryDao diaryDao = db.diaryDao();
 
@@ -78,11 +81,15 @@ public class EmotionStatisticsFragment extends Fragment {
 
             ExecutorService executor = Executors.newSingleThreadExecutor();
             executor.execute(() -> {
-                if (isMonthly) {
-                    emotions = diaryDao.getEmotionCounts(startDate, endDate);
-                } else {
-                    emotions = diaryDao.getEmotionCounts(startDate, endDate);
+                List<EmotionCount> result = diaryDao.getEmotionCounts(startDate, endDate);
+
+                for (EmotionCount ec : result) {
+                    int id = ec.emotion_id;
+                    if (id >= 0 && id < emotions.size()) {
+                        emotions.get(id).count = ec.count;
+                    }
                 }
+
 
                 requireActivity().runOnUiThread(() -> {
                     TextView placeHolder = view.findViewById(R.id.emotion_statistics_hint);
@@ -100,58 +107,65 @@ public class EmotionStatisticsFragment extends Fragment {
             e.printStackTrace();
         }
     }
-
+    private void initializeEmotions() {
+        for (int i = 0; i < 16; i++) {
+            emotions.add(new EmotionCount(i, 0));
+        }
+    }
 
     private void configureChartAppearance() {
         barChart.getDescription().setEnabled(false);
         barChart.setTouchEnabled(false);
         barChart.getLegend().setEnabled(false);
-        barChart.setExtraOffsets(10f, 10f, 10f, 30f);
+        barChart.setExtraOffsets(10f, 20f, 10f, 10f);
         barChart.setHighlightFullBarEnabled(false);
-        barChart.setBackgroundColor(Color.TRANSPARENT);
 
         XAxis xAxis = barChart.getXAxis();
         xAxis.setDrawAxisLine(false);
         xAxis.setGranularity(1f);
-        xAxis.setTextSize(15f);
-        xAxis.setTextColor(Color.WHITE);
+        xAxis.setGranularityEnabled(true);
+        xAxis.setTextSize(20f);
+        xAxis.setLabelCount(emotions.size(), true);
+
         xAxis.setDrawGridLines(false);
         xAxis.setPosition(XAxis.XAxisPosition.BOTTOM);
         xAxis.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
                 int index = (int) value;
-                return (index >= 0 && index < emotions.size()) ? emotions.get(index).emotion : "";
+                Log.d("ChartEntry", "id=" + index);
+                return Emotions.getEmotionDataById(emotions.get(index).emotion_id).getEmoji();
             }
         });
 
         YAxis axisLeft = barChart.getAxisLeft();
+        axisLeft.setDrawLabels(true);
         axisLeft.setDrawGridLines(false);
         axisLeft.setDrawAxisLine(false);
         axisLeft.setAxisMinimum(0f);
-        axisLeft.setAxisMaximum(50f);
         axisLeft.setGranularity(1f);
-        axisLeft.setDrawLabels(false);
 
         YAxis axisRight = barChart.getAxisRight();
-        axisRight.setTextSize(15f);
-        axisRight.setDrawLabels(false);
-        axisRight.setDrawGridLines(false);
-        axisRight.setDrawAxisLine(false);
+        axisRight.setEnabled(false);
     }
 
     private BarData createChartData() {
-
         ArrayList<BarEntry> values = new ArrayList<>();
+
         for (int i = 0; i < emotions.size(); i++) {
-            values.add(new BarEntry(i, emotions.get(i).count));
+
+            int id = emotions.get(i).emotion_id;
+            int count = emotions.get(i).count;
+
+            values.add(new BarEntry(i, count));
+            Log.d("ChartEntry1", "id=" + id + ", count=" + count + ", emoji=" + Emotions.getEmotionDataById(id).getEmoji() + values);
         }
 
         BarDataSet set = new BarDataSet(values, SET_LABEL);
         set.setDrawIcons(false);
         set.setDrawValues(true);
         set.setColor(Color.parseColor("#FF0000"));
-        set.setValueTextColor(Color.WHITE);
+
         set.setValueFormatter(new ValueFormatter() {
             @Override
             public String getFormattedValue(float value) {
@@ -160,13 +174,16 @@ public class EmotionStatisticsFragment extends Fragment {
         });
 
         BarData data = new BarData(set);
-        data.setBarWidth(0.5f);
+        data.setBarWidth(0.1f);
         data.setValueTextSize(15);
         return data;
     }
 
     private void prepareChartData(BarData data) {
         barChart.setData(data);
+        barChart.setFitBars(true);
         barChart.invalidate();
     }
+
+
 }

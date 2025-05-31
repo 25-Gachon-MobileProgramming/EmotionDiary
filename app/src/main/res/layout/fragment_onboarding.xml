@@ -1,44 +1,71 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_height="wrap_content"
+    android:background="@color/colorBackground"
+    android:orientation="vertical"
     android:gravity="center"
-    android:padding="10dp"
-    android:background="#706495">
+    android:padding="24dp">
 
+    <!-- 타이틀 -->
     <TextView
         android:id="@+id/title"
-        android:textColor="@android:color/white"
-        android:textSize="50dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Emotion Diary"
+        android:textSize="32sp"
         android:textStyle="bold"
+        android:fontFamily="@font/dunggeunmo"
+        android:textColor="@color/colorOnBackground"
         android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- 설명 -->
     <TextView
         android:id="@+id/description"
-        android:textColor="@android:color/white"
-        android:textSize="30dp"
-        android:layout_marginTop="8dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="오늘의 감정을\n카드에 담아보세요"
+        android:textSize="18sp"
+        android:fontFamily="@font/font"
+        android:textColor="@color/colorOnBackground"
         android:gravity="center"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
+        android:layout_marginTop="12dp"
+        app:layout_constraintTop_toBottomOf="@id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
 
+    <!-- 타로 이미지 -->
     <ImageView
         android:id="@+id/image"
-        android:layout_width="wrap_content"
-        android:layout_height="400dp"
+        android:layout_width="250dp"
+        android:layout_height="350dp"
         android:layout_marginTop="32dp"
-        android:scaleType="fitCenter" />
+        android:scaleType="fitCenter"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/description" />
 
-    <Button
+    <!-- 시작 버튼 -->
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/startButton"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="시작하기"
         android:layout_marginTop="24dp"
         android:visibility="gone"
-        android:layout_gravity="end" />
+        app:cornerRadius="16dp"
+        app:iconPadding="8dp"
+        app:backgroundTint="@color/colorPrimary"
+        app:iconTint="@color/colorOnPrimary"
+        android:textColor="@color/colorOnPrimary"
+        app:layout_constraintTop_toBottomOf="@id/image"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
 
 </LinearLayout>

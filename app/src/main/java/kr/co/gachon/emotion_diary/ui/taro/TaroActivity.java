@@ -18,6 +18,8 @@ import androidx.activity.OnBackPressedCallback;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.content.ContextCompat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -57,6 +59,9 @@ public class TaroActivity extends AppCompatActivity {
         if (actionBar != null) {
             actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
             actionBar.setCustomView(R.layout.custom_back_bar);
+
+            Toolbar parent = (Toolbar) actionBar.getCustomView().getParent();
+            parent.setContentInsetsAbsolute(0, 0);
 
             ImageButton backButton = actionBar.getCustomView().findViewById(R.id.backButtonActionBar);
             backButton.setOnClickListener(v -> showExitConfirmationDialog());
@@ -201,7 +206,7 @@ public class TaroActivity extends AppCompatActivity {
                         finishToMainActivity();
                     }
                 });
-            }, 800);
+            }, 1000);
         });
 
         nextButton.setEnabled(true);
@@ -270,11 +275,16 @@ public class TaroActivity extends AppCompatActivity {
     }
 
     private void showExitConfirmationDialog() {
-        new AlertDialog.Builder(this)
+        AlertDialog dialogBuilder = new AlertDialog.Builder(this)
                 .setTitle("종료 확인")
                 .setMessage("정말 타로카드 선택을 종료하시겠습니까?")
                 .setPositiveButton("예", (dialog, which) -> finishToMainActivity())
                 .setNegativeButton("아니오", (dialog, which) -> dialog.dismiss())
                 .show();
+
+        dialogBuilder.getButton(AlertDialog.BUTTON_POSITIVE)
+                .setTextColor(ContextCompat.getColor(this, R.color.colorSecondary));
+        dialogBuilder.getButton(AlertDialog.BUTTON_NEGATIVE)
+                .setTextColor(ContextCompat.getColor(this, R.color.colorSecondary));
     }
 }

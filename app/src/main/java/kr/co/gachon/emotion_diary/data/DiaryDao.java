@@ -14,6 +14,8 @@ import java.util.List;
 public interface DiaryDao {
     @Query("SELECT COUNT(*) FROM diaries")
     int getDiaryCount();
+    @Query("SELECT COUNT(*) > 0 FROM diaries WHERE date = :today")
+    boolean isDiaryWritten(Date today);
 
     @Query("SELECT * FROM diaries ORDER BY date DESC")
     LiveData<List<Diary>> getAllDiaries();

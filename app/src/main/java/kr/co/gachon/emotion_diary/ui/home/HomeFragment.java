@@ -11,12 +11,13 @@ import androidx.fragment.app.Fragment;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
-
+import kr.co.gachon.emotion_diary.data.DiaryRepository;
 import kr.co.gachon.emotion_diary.databinding.FragmentHomeBinding;
 
 public class HomeFragment extends Fragment {
 
     private FragmentHomeBinding binding;
+    private DiaryRepository diaryRepository;
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -24,6 +25,8 @@ public class HomeFragment extends Fragment {
 
         binding = FragmentHomeBinding.inflate(inflater, container, false);
         View root = binding.getRoot();
+
+        diaryRepository = new DiaryRepository(requireActivity().getApplication());
 
         setupDatePager();
 
@@ -33,25 +36,30 @@ public class HomeFragment extends Fragment {
     private void setupDatePager() {
         List<LocalDate> dateList = new ArrayList<>();
         LocalDate today = LocalDate.now();
-        for (int i = -5; i <= 1; i++) {
-            dateList.add(today.plusDays(i));
-        }
+        LocalDate startDate = today.minusDays(10);
 
-        DatePagerAdapter adapter = new DatePagerAdapter(dateList);
-        binding.dateViewPager.setAdapter(adapter);
-        binding.dateViewPager.setCurrentItem(5, false);
+        for (int i = -10; i <= 0; i++) dateList.add(today.plusDays(i));
 
-        // 캐러셀 효과
-        binding.dateViewPager.setClipToPadding(false);
-        binding.dateViewPager.setClipChildren(false);
-        binding.dateViewPager.setOffscreenPageLimit(3);
-        binding.dateViewPager.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
-        binding.dateViewPager.setPadding(120, 0, 120, 0);
+        // 비동기 diary map 가져오기
+        diaryRepository.getDiaryMapForRangeAsync(startDate, today, diaryMap -> {
+            DatePagerAdapter adapter = new DatePagerAdapter(getActivity(), dateList, diaryMap);
+            binding.dateViewPager.setAdapter(adapter);
+            binding.dateViewPager.setCurrentItem(10, false);
 
-        binding.dateViewPager.setPageTransformer((page, position) -> {
-            float scale = 1 - Math.abs(position) * 0.2f;
-            page.setScaleY(scale);
-            page.setAlpha(0.5f + (1 - Math.abs(position)) * 0.5f);
+            // 캐러셀 효과 등 세팅
+            binding.dateViewPager.setClipToPadding(false);
+            binding.dateViewPager.setClipChildren(false);
+            binding.dateViewPager.setOffscreenPageLimit(3);
+            binding.dateViewPager.getChildAt(0).setOverScrollMode(View.OVER_SCROLL_NEVER);
+            binding.dateViewPager.setPadding(120, 0, 120, 0);
+
+            binding.dateViewPager.setPageTransformer((page, position) -> {
+                float scale = 1 - Math.abs(position) * 0.2f;
+                page.setScaleY(scale);
+                page.setAlpha(0.5f + (1 - Math.abs(position)) * 0.5f);
+            });
+
+            binding.dotsIndicator.setViewPager2(binding.dateViewPager);
         });
     }
 

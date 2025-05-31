@@ -4,8 +4,9 @@
     android:id="@+id/main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#706495"
-    android:orientation="vertical">
+    android:background="?attr/colorSurface"
+    android:orientation="vertical"
+    tools:context=".MainActivity">
 
     <TextView
         android:layout_width="wrap_content"
@@ -14,7 +15,8 @@
         android:layout_marginTop="60dp"
         android:fontFamily="@font/concon"
         android:text="Set Your Avatar"
-        android:textSize="30dp" />
+        android:textSize="24sp"
+        android:textColor="?attr/colorOnSurface" />
 
     <ImageView
         android:layout_width="200dp"
@@ -28,7 +30,10 @@
         android:layout_height="wrap_content"
         android:hint="Enter your nickname"
         android:layout_gravity="center"
-        android:layout_marginBottom="10dp" />
+        android:layout_marginBottom="10dp"
+        android:textColor="?attr/colorOnSurface"
+        android:backgroundTint="?attr/colorPrimary"
+        android:textColorHint="?attr/colorOnSurface" />
 
     <RadioGroup
         android:id="@+id/radGender"
@@ -41,19 +46,22 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Gender "
-            android:textSize="30dp" />
+            android:textSize="20sp"
+            android:textColor="?attr/colorOnSurface" />
 
         <RadioButton
             android:id="@+id/genderM"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Male" />
+            android:text="Male"
+            android:textColor="?attr/colorOnSurface" />
 
         <RadioButton
             android:id="@+id/genderF"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Female" />
+            android:text="Female"
+            android:textColor="?attr/colorOnSurface" />
     </RadioGroup>
 
     <TextView
@@ -61,7 +69,8 @@
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:text="Birth date"
-        android:textSize="30dp" />
+        android:textSize="20sp"
+        android:textColor="?attr/colorOnSurface" />
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -80,7 +89,8 @@
             android:gravity="center"
             android:layout_margin="4dp"
             android:text="/"
-            android:textSize="30dp" />
+            android:textSize="20sp"
+            android:textColor="?attr/colorOnSurface" />
 
         <NumberPicker
             android:id="@+id/monthPicker"
@@ -93,7 +103,8 @@
             android:layout_margin="4dp"
             android:gravity="center"
             android:text="/"
-            android:textSize="30dp" />
+            android:textSize="20sp"
+            android:textColor="?attr/colorOnSurface" />
 
         <NumberPicker
             android:id="@+id/dayPicker"
@@ -106,6 +117,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:text="send" />
-
+        android:text="Send"
+        android:textColor="?attr/colorOnPrimary"
+        android:backgroundTint="?attr/colorPrimary" />
 </LinearLayout>

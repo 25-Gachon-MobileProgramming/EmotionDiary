@@ -1,28 +1,50 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@drawable/splash_base"
-    android:gravity="center"
-    android:orientation="vertical"
-    tools:context=".MainActivity">
+    android:background="@color/colorBackground">
 
+    <!-- 로고 영상 -->
+    <VideoView
+        android:id="@+id/logoVideoView"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:background="@android:color/transparent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:contentDescription="EmotionDiary" />
+
+    <!-- 썸네일 -->
+    <ImageView
+        android:id="@+id/videoPlaceholder"
+        android:layout_width="400dp"
+        android:layout_height="400dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/logo_img"
+        app:layout_constraintTop_toTopOf="@id/logoVideoView"
+        app:layout_constraintBottom_toBottomOf="@id/logoVideoView"
+        app:layout_constraintStart_toStartOf="@id/logoVideoView"
+        app:layout_constraintEnd_toEndOf="@id/logoVideoView" />
+
+    <!-- 타이틀 -->
     <TextView
         android:id="@+id/titleTextView"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:fontFamily="@font/dunggeunmo"
         android:text="Emotion Diary"
-        android:textSize="40sp"/>
+        android:textColor="@color/colorSecondary"
+        android:textSize="36sp"
+        android:textStyle="bold"
+        android:fontFamily="@font/dunggeunmo"
+        android:letterSpacing="0.03"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="200dp" />
+</androidx.constraintlayout.widget.ConstraintLayout>
 
-    <ImageView
-        android:id="@+id/logoImageView"
-        android:layout_marginTop="10dp"
-        android:layout_width="200pt"
-        android:layout_height="200pt"
-        android:src="@drawable/logo2"/>
 
-</LinearLayout>

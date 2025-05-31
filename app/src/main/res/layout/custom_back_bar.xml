@@ -1,26 +1,35 @@
-<?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
     android:layout_height="?attr/actionBarSize"
-    android:gravity="center_vertical">
+    android:background="@color/colorPrimary"
+    android:elevation="4dp">
 
+    <!-- 뒤로가기 버튼 -->
     <ImageButton
         android:id="@+id/backButtonActionBar"
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:background="?attr/selectableItemBackgroundBorderless"
-        android:layout_alignParentStart="true"
-        android:layout_centerVertical="true"
-        android:src="@drawable/left"/>
+        android:src="@drawable/left"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:tint="@color/colorOnPrimary" />
 
+    <!-- 액션바 타이틀 -->
     <TextView
         android:id="@+id/titleTextViewActionBar"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:layout_toStartOf ="@id/backButtonActionBar"
-        android:layout_alignParentEnd="true"
-        android:layout_centerVertical="true"
-        android:textSize="18dp" />
-
-</RelativeLayout>
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/app_name"
+        android:textColor="@color/colorOnPrimary"
+        android:textSize="20sp"
+        android:fontFamily="@font/dunggeunmo"
+        app:layout_constraintStart_toEndOf="@id/backButtonActionBar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintHorizontal_bias="0.5" />
+</androidx.constraintlayout.widget.ConstraintLayout>
